@@ -1,6 +1,7 @@
 package mmorpg
 
-import mmorpg.Messages.{Message, Spawn, StringMessage, _}
+import mmorpg.messages.ClientMessage._
+import mmorpg.messages.ServerMessage._
 import org.scalajs.dom
 import org.scalajs.dom._
 
@@ -15,20 +16,18 @@ object Client {
   var rightPressed = false
   var downPressed = false
 
-  /*val player = Player(1, Point(Random.nextInt(800), Random.nextInt(800)),
-                      s"rgb(${Random.nextInt(256)}, ${Random.nextInt(256)}, ${Random.nextInt(256)})")*/
   val players = mutable.Set[PlayerInfo]()
 
   @JSExport
   def main(container: dom.HTMLDivElement) = {
 
-    val socket = new dom.WebSocket(s"ws://${dom.window.location.hostname}:8081")
+    val socket = new dom.WebSocket(s"ws://${dom.window.location.hostname}:8080")
     socket.onopen = { e: Event =>
       //socket.send("ping")
       //socket.send("idk")
     }
     socket.onmessage = { e: MessageEvent =>
-      val message = upickle.read[Message](e.data.toString)
+      val message = upickle.read[ServerMessage](e.data.toString)
       message match {
         case StringMessage(msg) => println(msg)
         case Spawn(player) =>
