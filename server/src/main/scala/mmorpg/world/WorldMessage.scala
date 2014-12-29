@@ -1,6 +1,7 @@
 package mmorpg.world
 
 import akka.actor.ActorRef
+import mmorpg.util.Direction.Direction
 
 object WorldMessage {
 
@@ -9,5 +10,5 @@ object WorldMessage {
   case class ClientConnected(worker: ActorRef) extends WorldMessage
   case class ClientDisconnected(worker: ActorRef) extends WorldMessage
 
-  case class MovePlayer(worker: ActorRef, direction: Int)
+  case class MovePlayer(worker: ActorRef, direction: Direction)
 }

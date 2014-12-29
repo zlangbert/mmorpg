@@ -23,7 +23,7 @@ object Server {
   /**
    * Starts WebSocket server
    */
-  def startWebSocketServer(): Unit = {
+  def startServer(): Unit = {
 
     val endpoint = "0.0.0.0"
     val port = Properties.envOrElse("PORT", "8080").toInt
@@ -38,6 +38,6 @@ object Server {
   }
 
   def main(args: Array[String]): Unit = {
-    startWebSocketServer()
+    startServer()
   }
 }

@@ -2,6 +2,7 @@ package mmorpg
 
 import mmorpg.messages.ClientMessage._
 import mmorpg.messages.ServerMessage._
+import mmorpg.util.Direction
 import org.scalajs.dom
 import org.scalajs.dom._
 
@@ -48,20 +49,20 @@ object Client {
     canvas.height = canvas.parentElement.clientHeight
 
     dom.document.onkeydown = { e: KeyboardEvent =>
-      e.keyCode match {
-        case 37 => leftPressed = true
-        case 38 => upPressed = true
-        case 39 => rightPressed = true
-        case 40 => downPressed = true
+      Direction.fromKeyCode(e.keyCode) match {
+        case Direction.Up => upPressed = true
+        case Direction.Down => downPressed = true
+        case Direction.Left => leftPressed = true
+        case Direction.Right => rightPressed = true
       }
     }
 
     dom.document.onkeyup = { e: KeyboardEvent =>
-      e.keyCode match {
-        case 37 => leftPressed = false
-        case 38 => upPressed = false
-        case 39 => rightPressed = false
-        case 40 => downPressed = false
+      Direction.fromKeyCode(e.keyCode) match {
+        case Direction.Up => upPressed = false
+        case Direction.Down => downPressed = false
+        case Direction.Left => leftPressed = false
+        case Direction.Right => rightPressed = false
       }
     }
 
@@ -79,10 +80,10 @@ object Client {
 
     def step(time: Double): Unit = {
 
-      if (leftPressed) socket.send(upickle.write(MoveRequest(0)))
-      if (upPressed) socket.send(upickle.write(MoveRequest(1)))
-      if (rightPressed) socket.send(upickle.write(MoveRequest(2)))
-      if (downPressed) socket.send(upickle.write(MoveRequest(3)))
+      if (leftPressed) socket.send(upickle.write(MoveRequest(Direction.Left)))
+      if (upPressed) socket.send(upickle.write(MoveRequest(Direction.Up)))
+      if (rightPressed) socket.send(upickle.write(MoveRequest(Direction.Right)))
+      if (downPressed) socket.send(upickle.write(MoveRequest(Direction.Down)))
 
       clear(ctx)
 

@@ -2,6 +2,7 @@ package mmorpg.world
 
 import akka.actor.{Actor, ActorRef}
 import mmorpg.messages.ServerMessage._
+import mmorpg.util.Direction
 import mmorpg.world.WorldMessage.{ClientConnected, ClientDisconnected, MovePlayer}
 import mmorpg.{Player, PlayerInfo}
 
@@ -26,10 +27,10 @@ class WorldActor extends Actor {
     case MovePlayer(worker, direction) =>
       val player = players(worker)
       direction match {
-        case 0 => player.info.move(-2, 0) //left
-        case 1 => player.info.move(0, -2) //up
-        case 2 => player.info.move(2, 0) //right
-        case 3 => player.info.move(0, 2) //down
+        case Direction.Up => player.info.move(0, -2)
+        case Direction.Down => player.info.move(0, 2)
+        case Direction.Left => player.info.move(-2, 0)
+        case Direction.Right => player.info.move(2, 0)
       }
       broadcast(Move(player.info))
   }
