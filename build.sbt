@@ -1,5 +1,3 @@
-version := "1.0"
-
 lazy val root = (project in file("."))
                   .aggregate(client, server)
                   .dependsOn(server)
@@ -10,17 +8,21 @@ mainClass in Compile := Some("mmorpg.Server")
 Revolver.settings
 
 lazy val sharedSettings = Seq(
+  scalaVersion := "2.11.4",
   unmanagedSourceDirectories in Compile +=
     baseDirectory.value  / "shared" / "main" / "scala",
+  unmanagedResourceDirectories in Compile +=
+    baseDirectory.value  / "shared" / "main" / "resources",
   resolvers ++= Seq(
     Resolver.sonatypeRepo("snapshots"),
     "spray" at "http://repo.spray.io",
     "spray nightly" at "http://nightlies.spray.io/"),
   libraryDependencies ++= Seq(
     "com.scalatags" %%% "scalatags" % "0.4.3-M3",
-    "com.lihaoyi" %%% "upickle" % "0.2.6-M3"
+    "com.lihaoyi" %%% "upickle" % "0.2.6-M3",
+    "com.lihaoyi" %% "utest" % "0.2.5-M3" % "test"
   ),
-  scalaVersion := "2.11.4"
+  testFrameworks += new TestFramework("utest.runner.Framework")
 )
 
 lazy val client = project.in(file("client"))
