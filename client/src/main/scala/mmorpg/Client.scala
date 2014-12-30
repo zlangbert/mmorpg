@@ -1,7 +1,7 @@
 package mmorpg
 
 import mmorpg.messages.ClientMessage._
-import mmorpg.messages.ServerMessage._
+import mmorpg.net.WebSocketConnection
 import mmorpg.util.Direction
 import org.scalajs.dom
 import org.scalajs.dom._
@@ -22,25 +22,7 @@ object Client {
   @JSExport
   def main(container: dom.HTMLDivElement) = {
 
-    val socket = new dom.WebSocket(s"ws://${dom.window.location.hostname}:8080")
-    socket.onopen = { e: Event =>
-      //socket.send("ping")
-      //socket.send("idk")
-    }
-    socket.onmessage = { e: MessageEvent =>
-      val message = upickle.read[ServerMessage](e.data.toString)
-      message match {
-        case StringMessage(msg) => println(msg)
-        case Spawn(player) =>
-          println(s"spawing $player")
-          players += player
-        case Despawn(player) =>
-          println(s"despawing $player")
-          players.find(_.id == player.id).foreach(players -= _)
-        case Move(player) =>
-          players.find(_.id == player.id).map(_.pos = player.pos)
-      }
-    }
+    val socket = WebSocketConnection(dom.window.location.hostname, 8080, MessageHandler())
 
     val canvas = dom.document.getElementById("canvas").asInstanceOf[HTMLCanvasElement]
     val ctx = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
@@ -76,14 +58,14 @@ object Client {
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
   }
 
-  def update(socket: dom.WebSocket, ctx: CanvasRenderingContext2D): Unit = {
+  def update(socket: WebSocketConnection, ctx: CanvasRenderingContext2D): Unit = {
 
     def step(time: Double): Unit = {
 
-      if (leftPressed) socket.send(upickle.write(MoveRequest(Direction.Left)))
-      if (upPressed) socket.send(upickle.write(MoveRequest(Direction.Up)))
-      if (rightPressed) socket.send(upickle.write(MoveRequest(Direction.Right)))
-      if (downPressed) socket.send(upickle.write(MoveRequest(Direction.Down)))
+      if (leftPressed) socket.send(MoveRequest(Direction.Left))
+      if (upPressed) socket.send(MoveRequest(Direction.Up))
+      if (rightPressed) socket.send(MoveRequest(Direction.Right))
+      if (downPressed) socket.send(MoveRequest(Direction.Down))
 
       clear(ctx)
 
