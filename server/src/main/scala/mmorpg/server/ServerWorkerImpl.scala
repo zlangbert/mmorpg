@@ -1,19 +1,27 @@
 package mmorpg.server
 
+import java.util.UUID
+
 import akka.actor.ActorRef
-import mmorpg.messages.ClientMessage._
-import mmorpg.world.WorldMessage
-import mmorpg.{Server, Index}
+import mmorpg.messages.ServerMessage._
+import mmorpg.messages.Message._
+import mmorpg.{Index, Server}
 import spray.can.Http.ConnectionClosed
-import spray.http.{MediaTypes, HttpEntity}
+import spray.http.{HttpEntity, MediaTypes}
 
 class ServerWorkerImpl(val serverConnection: ActorRef) extends ServerWorker {
+
+  /*
+   * This will need to be changed. There will have to be a better way of associating
+   * the connection actor with the player actor
+   */
+  val id = UUID.randomUUID()
 
   /**
    * Register new client with the world
    */
   override def onWebSocketOpen(): Unit = {
-    Server.world ! WorldMessage.ClientConnected(self)
+    Server.world ! ClientConnected(id, self)
   }
 
   /**
@@ -21,16 +29,15 @@ class ServerWorkerImpl(val serverConnection: ActorRef) extends ServerWorker {
    * @param e The close event
    */
   override def onWebSocketClose(e: ConnectionClosed): Unit = {
-    Server.world ! WorldMessage.ClientDisconnected(self)
+    Server.world ! ClientDisconnected(id)
   }
 
   /**
    * Handle messages from the client
    * @param msg The message from the client
    */
-  override def clientMessageHandler(msg: ClientMessage): Unit = msg match {
-    case MoveRequest(dir) =>
-      Server.world ! WorldMessage.MovePlayer(self, dir)
+  override def messageHandler(msg: Message): Unit = {
+    Server.world ! msg
   }
 
   /*

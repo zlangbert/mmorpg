@@ -1,30 +1,32 @@
 package mmorpg.world
 
-import akka.actor.{Actor, ActorRef}
+import akka.actor.Actor
+import mmorpg.messages.Message._
 import mmorpg.messages.ServerMessage._
-import mmorpg.util.Direction
-import mmorpg.world.WorldMessage.{ClientConnected, ClientDisconnected, MovePlayer}
-import mmorpg.{Player, PlayerInfo}
-
-import scala.collection.concurrent
+import mmorpg.player.PlayerManagerActor
 
 class WorldActor extends Actor {
 
-  private val players = concurrent.TrieMap[ActorRef, Player]()
+  val players = context.actorOf(PlayerManagerActor.props(), "players")
 
   override def receive: Receive = {
 
-    case ClientConnected(worker) =>
-      val info = PlayerInfo.random()
-      players += worker -> Player(worker, info)
-      broadcast(Spawn(info))
+    case msg@ClientConnected(_, _) =>
+      players ! msg
+      //val info = PlayerInfo.random()
+      //players += worker -> Player(worker, info)
+      //broadcast(Spawn(info))
 
-    case ClientDisconnected(worker) =>
-      val player = players(worker)
-      players -= worker
-      broadcast(Despawn(player.info))
+    case msg@ClientDisconnected(_) =>
+      players ! msg
+      //val player = players(worker)
+      //players -= worker
+      //broadcast(Despawn(player.info))
 
-    case MovePlayer(worker, direction) =>
+    case msg@Spawn(_, _) =>
+      players ! Broadcast(msg)
+
+    /*case MovePlayer(worker, direction) =>
       val player = players(worker)
       direction match {
         case Direction.Up => player.info.move(0, -2)
@@ -32,10 +34,6 @@ class WorldActor extends Actor {
         case Direction.Left => player.info.move(-2, 0)
         case Direction.Right => player.info.move(2, 0)
       }
-      broadcast(Move(player.info))
-  }
-
-  private def broadcast(msg: ServerMessage): Unit = {
-    players.values.foreach(_.worker ! Push(msg))
+      broadcast(Move(player.info))*/
   }
 }

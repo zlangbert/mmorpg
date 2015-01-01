@@ -1,8 +1,13 @@
 package mmorpg.server
 
+import java.util.UUID
+
 import akka.actor.{ActorRef, Props}
-import mmorpg.messages.ClientMessage.ClientMessage
+import mmorpg.messages.Message._
 import mmorpg.messages.ServerMessage
+import mmorpg.player.PlayerState
+import mmorpg.util.Direction.Direction
+import mmorpg.util.Vec
 import spray.can.websocket.frame.TextFrame
 import spray.can.{Http, websocket}
 import spray.routing.HttpServiceActor
@@ -14,7 +19,7 @@ trait ServerWorker extends HttpServiceActor with websocket.WebSocketServerWorker
   def httpHandler: Receive
   def onWebSocketOpen(): Unit
   def onWebSocketClose(e: Http.ConnectionClosed): Unit
-  def clientMessageHandler(msg: ClientMessage): Unit
+  def messageHandler(msg: Message): Unit
 
   override def businessLogic: Receive = {
 
@@ -33,8 +38,8 @@ trait ServerWorker extends HttpServiceActor with websocket.WebSocketServerWorker
      */
     case m: TextFrame =>
       val rawMessage = m.payload.decodeString("UTF-8")
-      val message = upickle.read[ClientMessage](rawMessage)
-      clientMessageHandler(message)
+      val message = upickle.read[Message](rawMessage)
+      messageHandler(message)
   }
 
   override def closeLogic: Receive = {

@@ -1,7 +1,10 @@
 package mmorpg
 
-import mmorpg.messages.ClientMessage._
+import java.util.UUID
+
+import mmorpg.messages.Message._
 import mmorpg.net.WebSocketConnection
+import mmorpg.player.PlayerState
 import mmorpg.util.Direction
 import org.scalajs.dom
 import org.scalajs.dom._
@@ -12,12 +15,14 @@ import scala.scalajs.js.annotation.JSExport
 @JSExport
 object Client {
 
+  var id: UUID = null
+
   var leftPressed = false
   var upPressed = false
   var rightPressed = false
   var downPressed = false
 
-  val players = mutable.Set[PlayerInfo]()
+  val players = mutable.Map[UUID, PlayerState]()
 
   @JSExport
   def main(container: dom.HTMLDivElement) = {
@@ -62,16 +67,16 @@ object Client {
 
     def step(time: Double): Unit = {
 
-      if (leftPressed) socket.send(MoveRequest(Direction.Left))
-      if (upPressed) socket.send(MoveRequest(Direction.Up))
-      if (rightPressed) socket.send(MoveRequest(Direction.Right))
-      if (downPressed) socket.send(MoveRequest(Direction.Down))
+      if (leftPressed) socket.send(Move(id, Direction.Left))
+      if (upPressed) socket.send(Move(id, Direction.Up))
+      if (rightPressed) socket.send(Move(id, Direction.Right))
+      if (downPressed) socket.send(Move(id, Direction.Down))
 
       clear(ctx)
 
-      players.foreach { player =>
-        ctx.fillStyle = player.color
-        ctx.fillRect(player.pos.x, player.pos.y, 25, 25)
+      players.values.foreach { player =>
+        ctx.fillStyle = "red"//player.color
+        ctx.fillRect(player.position.x, player.position.y, 25, 25)
       }
 
       dom.window.requestAnimationFrame(step _)
