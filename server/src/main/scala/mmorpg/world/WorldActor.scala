@@ -13,15 +13,8 @@ class WorldActor extends Actor {
 
     case msg@ClientConnected(_, _) =>
       players ! msg
-      //val info = PlayerInfo.random()
-      //players += worker -> Player(worker, info)
-      //broadcast(Spawn(info))
-
     case msg@ClientDisconnected(_) =>
       players ! msg
-      //val player = players(worker)
-      //players -= worker
-      //broadcast(Despawn(player.info))
 
     case msg@Spawn(_, _) =>
       players ! Broadcast(msg)

@@ -12,11 +12,16 @@ class PlayerActor(id: UUID, connection: ActorRef) extends Actor {
 
   val state = PlayerState(id, Vec(0, 0))
 
-  connection ! Push(InitializeClient(id))
-  Server.world ! Spawn(id, state)
+  //Initialize
+  init()
 
   override def receive: Receive = {
     case msg: Message => connection ! Push(msg)
+  }
+
+  def init(): Unit = {
+    connection ! Push(InitializeClient(id))
+    Server.world ! Spawn(id, state)
   }
 }
 
