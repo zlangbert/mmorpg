@@ -1,10 +1,9 @@
 package mmorpg.tmx
 
-import java.nio.file.{Files, Path}
-import scala.collection.JavaConverters._
+import java.nio.file.Path
 
 private[tmx] trait TmxLoader {
-  def load(path: Path): TmxMap
+  def load(path: Path): Tmx.Map
 }
 
 object TmxLoader {
@@ -14,7 +13,7 @@ object TmxLoader {
    * @param path The path to the map file
    * @return The parsed map as a TmxMap
    */
-  def load(path: Path): TmxMap = {
+  def load(path: Path): Tmx.Map = {
     // I could pull in a lib to do better file detection. Not sure if worth it
     val loader: TmxLoader = path.getFileName.toString match {
       case s if s.contains("json") =>
