@@ -5,7 +5,10 @@ import java.util.UUID
 import mmorpg.util.Direction.Direction
 import mmorpg.util.{Direction, Vec}
 
-case class PlayerState(id: UUID, var position: Vec) {
+import scala.util.Random
+
+case class PlayerState(id: UUID, var position: Vec,
+                       color: String = s"rgb(${Random.nextInt(256)}, ${Random.nextInt(256)}, ${Random.nextInt(256)})") {
 
   def move(dir: Direction): Unit = {
     position = dir match {

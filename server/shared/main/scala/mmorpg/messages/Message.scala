@@ -16,10 +16,11 @@ object Message {
   }
 
   sealed trait Message {
-    def id: UUID
+    def target: UUID
   }
-  case class InitializeClient(id: UUID) extends Message
-  case class Spawn(id: UUID, state: PlayerState) extends Message
-  case class Move(id: UUID, direction: Direction) extends Message
-  case class UpdateState(id: UUID, state: PlayerState) extends Message
+  case class InitializeClient(target: UUID) extends Message
+  case class Spawn(target: UUID, state: PlayerState) extends Message
+  case class Despawn(target: UUID) extends Message
+  case class Move(target: UUID, direction: Direction) extends Message
+  case class UpdateState(target: UUID, state: PlayerState) extends Message
 }

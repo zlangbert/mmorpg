@@ -75,7 +75,7 @@ object Client {
       clear(ctx)
 
       players.values.foreach { player =>
-        ctx.fillStyle = "red"//player.color
+        ctx.fillStyle = player.color
         ctx.fillRect(player.position.x, player.position.y, 25, 25)
       }
 

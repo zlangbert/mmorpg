@@ -1,10 +1,12 @@
 package mmorpg.world
 
 import akka.actor.Actor
+import akka.util.Timeout
 import mmorpg.messages.Message._
 import mmorpg.messages.ServerMessage._
-import mmorpg.player.PlayerManagerActor
+import mmorpg.player.{PlayerState, PlayerManagerActor}
 import scala.concurrent.duration._
+import akka.pattern.ask
 
 class WorldActor extends Actor {
 
@@ -17,14 +19,20 @@ class WorldActor extends Actor {
 
   override def receive: Receive = {
 
-    case msg: ClientConnected => players ! msg
-    case msg: ClientDisconnected => players ! msg
+    case msg: ClientConnected =>
+      players ! msg
+      // Spawn all already connected players
+      players ! AnnounceSpawn
 
-    case Tick =>
-      players ! Tick
+    case msg: ClientDisconnected =>
+      players ! msg
+      players ! BroadcastPush(Despawn(msg.id))
 
     case msg: UpdateState => players ! BroadcastPush(msg)
     case msg: Spawn => players ! BroadcastPush(msg)
     case msg: Move => players ! msg
+
+    case Tick =>
+      players ! Tick
   }
 }

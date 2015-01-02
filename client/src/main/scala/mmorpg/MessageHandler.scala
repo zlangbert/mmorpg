@@ -16,16 +16,13 @@ class MessageHandlerImpl extends MessageHandler {
       println("setting id")
       Client.id = id
     case Spawn(id, state) =>
-      println(s"spawing $id")
-      Client.players += id -> state
+      println(s"spawing ${state.id}")
+      Client.players += state.id -> state
+    case Despawn(id) =>
+      println(s"despawning $id")
+      Client.players -= id
     case UpdateState(id, state) =>
       Client.players(id) = state
     case _ => println(s"Unhandled message: $message")
-    //players += player
-    /*case Despawn(player) =>
-      println(s"despawing $player")
-    //players.find(_.id == player.id).foreach(players -= _)
-    case Move(player) =>*/
-    //players.find(_.id == player.id).map(_.pos = player.pos)
   }
 }

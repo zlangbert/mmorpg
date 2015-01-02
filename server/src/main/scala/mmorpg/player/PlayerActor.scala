@@ -8,30 +8,40 @@ import mmorpg.messages.Message._
 import mmorpg.messages.ServerMessage._
 import mmorpg.util.Vec
 
-class PlayerActor(id: UUID, connection: ActorRef, world: ActorRef) extends Actor {
+/**
+ * A per player actor in charge of tracking and mutating state
+ * @param id Id of the client
+ * @param connection The websocket connection actor
+ * @param world The game world
+ */
+class PlayerActor(id: UUID, connection: ActorRef, world: ActorRef /*TODO: is this needed?*/) extends Actor {
 
   val state = PlayerState(id, Vec(0, 0))
 
-  override def receive: Receive = {
+  override def receive: Receive = messageHandler orElse toClient
 
+  /**
+   * Handles server messages
+   */
+  lazy val messageHandler: Receive = {
     case Tick =>
-
+    case AnnounceSpawn => sender() ! Spawn(id, state)
     case Move(_, direction) =>
       state.move(direction)
-      world ! UpdateState(id, state)
+      sender() ! UpdateState(id, state)
+  }
 
+  /**
+   * Handles a message intended for the client
+   */
+  lazy val toClient: Receive = {
     case msg: Push => connection ! msg
   }
 
   /*
-   * Initialize
+   Trigger player spawn
    */
-  init()
-
-  def init(): Unit = {
-    connection ! Push(InitializeClient(id))
-    Server.world ! Spawn(id, state)
-  }
+  Server.world ! Spawn(id, state)
 }
 
 object PlayerActor {
