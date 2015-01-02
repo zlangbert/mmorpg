@@ -21,4 +21,5 @@ object Message {
   case class InitializeClient(id: UUID) extends Message
   case class Spawn(id: UUID, state: PlayerState) extends Message
   case class Move(id: UUID, direction: Direction) extends Message
+  case class UpdateState(id: UUID, state: PlayerState) extends Message
 }

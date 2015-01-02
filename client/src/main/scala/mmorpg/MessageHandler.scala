@@ -18,6 +18,9 @@ class MessageHandlerImpl extends MessageHandler {
     case Spawn(id, state) =>
       println(s"spawing $id")
       Client.players += id -> state
+    case UpdateState(id, state) =>
+      Client.players(id) = state
+    case _ => println(s"Unhandled message: $message")
     //players += player
     /*case Despawn(player) =>
       println(s"despawing $player")
