@@ -1,4 +1,4 @@
-lazy val root = (project in file("."))
+lazy val mmorpg = (project in file("."))
                   .aggregate(client, server)
                   .dependsOn(server)
                   .settings(sharedSettings: _*)
