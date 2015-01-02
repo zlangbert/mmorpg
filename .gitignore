@@ -13,3 +13,6 @@ out
 /RUNNING_PID
 .settings
 .DS_STORE
+
+# ignore anything that might get put into client/shared
+client/shared
