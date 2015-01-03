@@ -1,4 +1,4 @@
-package mmorpg
+package mmorpg.client
 
 import mmorpg.messages.Message._
 
@@ -23,6 +23,8 @@ class MessageHandlerImpl extends MessageHandler {
       Client.players -= id
     case UpdateState(id, state) =>
       Client.players(id) = state
+    case ImageData(_, key, data) =>
+      Assets.register(key, data)
     case _ => println(s"Unhandled message: $message")
   }
 }

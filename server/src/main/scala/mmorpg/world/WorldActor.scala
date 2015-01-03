@@ -2,6 +2,7 @@ package mmorpg.world
 
 import akka.actor.Actor
 import akka.util.Timeout
+import mmorpg.assets.Assets
 import mmorpg.messages.Message._
 import mmorpg.messages.ServerMessage._
 import mmorpg.player.{PlayerState, PlayerManagerActor}

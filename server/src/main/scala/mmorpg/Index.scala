@@ -4,7 +4,7 @@ import scalatags.Text.all._
 
 object Index {
 
-  val boot = "mmorpg.Client().main(document.getElementById('contents'))"
+  val boot = "mmorpg.client.Client().main(document.getElementById('contents'))"
 
   val skeleton =
     html(style:="height:100%",
@@ -18,10 +18,12 @@ object Index {
       body(style:="height:100%",
         onload:=boot,
         div(id:="header"),
+        img(src:="tilesheet.png", style:="display:none;"),
         div(id:="contents", style:="height:100%",
           canvas(id:="canvas")
         ),
-        div(id:="footer")
+        div(id:="footer"),
+        script(src:="//cdnjs.cloudflare.com/ajax/libs/stats.js/r11/Stats.min.js")
       )
     )
 }

@@ -1,9 +1,10 @@
-package mmorpg
+package mmorpg.client
 
 import java.util.UUID
 
+import mmorpg.client.net.WebSocketConnection
+import mmorpg.client.stubs.Stats
 import mmorpg.messages.Message._
-import mmorpg.net.WebSocketConnection
 import mmorpg.player.PlayerState
 import mmorpg.util.Direction
 import org.scalajs.dom
@@ -26,6 +27,8 @@ object Client {
 
   @JSExport
   def main(container: dom.HTMLDivElement) = {
+
+    DebugInfo.attach(container)
 
     val socket = WebSocketConnection(dom.window.location.hostname, 8080, MessageHandler())
 
@@ -55,7 +58,9 @@ object Client {
 
     clear(ctx)
 
-    update(socket, ctx)
+    dom.setTimeout(() => {
+      update(socket, ctx)
+    }, 50)
   }
 
   def clear(ctx: CanvasRenderingContext2D): Unit = {
@@ -67,6 +72,8 @@ object Client {
 
     def step(time: Double): Unit = {
 
+      DebugInfo.frameStart()
+
       if (leftPressed) socket.send(Move(id, Direction.Left))
       if (upPressed) socket.send(Move(id, Direction.Up))
       if (rightPressed) socket.send(Move(id, Direction.Right))
@@ -74,10 +81,19 @@ object Client {
 
       clear(ctx)
 
+      /*for {
+        x <- 0 until ctx.canvas.width by 48
+        y <- 0 until ctx.canvas.height by 48
+      } {
+        ctx.drawImage(Assets("tilesheet"), 48*13, 48*8, 48, 48, x, y, 48, 48)
+      }*/
+
       players.values.foreach { player =>
         ctx.fillStyle = player.color
         ctx.fillRect(player.position.x, player.position.y, 25, 25)
       }
+
+      DebugInfo.frameEnd()
 
       dom.window.requestAnimationFrame(step _)
     }

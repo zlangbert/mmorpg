@@ -3,7 +3,8 @@ package mmorpg.player
 import java.util.UUID
 
 import akka.actor._
-import mmorpg.messages.Message.{InitializeClient, Message}
+import mmorpg.assets.Assets
+import mmorpg.messages.Message._
 import mmorpg.messages.ServerMessage._
 
 class PlayerManagerActor(world: ActorRef) extends Actor with ActorLogging {
@@ -35,6 +36,7 @@ class PlayerManagerActor(world: ActorRef) extends Actor with ActorLogging {
       playerCount += 1
       context.actorOf(PlayerActor.props(id, connection, world), s"$id")
       player(id) ! Push(InitializeClient(id))
+      all ! Push(ImageData(id, "tilesheet", Assets.load()))
 
     /**
      * Kill player actor on disconnect

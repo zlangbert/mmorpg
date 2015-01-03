@@ -19,6 +19,7 @@ object Message {
     def target: UUID
   }
   case class InitializeClient(target: UUID) extends Message
+  case class ImageData(target: UUID, key: String, data: String) extends Message
   case class Spawn(target: UUID, state: PlayerState) extends Message
   case class Despawn(target: UUID) extends Message
   case class Move(target: UUID, direction: Direction) extends Message
