@@ -3,7 +3,6 @@ package mmorpg.player
 import java.util.UUID
 
 import akka.actor._
-import mmorpg.assets.Assets
 import mmorpg.messages.Message._
 import mmorpg.messages.ServerMessage._
 
