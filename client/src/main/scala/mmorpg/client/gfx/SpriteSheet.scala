@@ -1,6 +1,7 @@
 package mmorpg.client.gfx
 
 import org.scalajs.dom
+
 import scala.collection.mutable
 
 class SpriteSheet(img: dom.HTMLImageElement) {

@@ -3,8 +3,8 @@ package mmorpg.server
 import java.util.UUID
 
 import akka.actor.ActorRef
-import mmorpg.messages.ServerMessage._
 import mmorpg.messages.Message._
+import mmorpg.messages.ServerMessage._
 import mmorpg.{Index, Server}
 import spray.can.Http.ConnectionClosed
 import spray.http.{HttpEntity, MediaTypes}

@@ -3,7 +3,6 @@ package mmorpg.client
 import org.scalajs.dom
 
 import scala.collection.mutable
-import org.scalajs.dom
 import scalatags.JsDom.all._
 
 object Assets {

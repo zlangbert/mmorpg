@@ -2,21 +2,18 @@ package mmorpg.player
 
 import java.util.UUID
 
-import mmorpg.util.Direction.Direction
-import mmorpg.util.{Direction, Vec}
+import mmorpg.util.Vec
 
 import scala.util.Random
 
 case class PlayerState(id: UUID, var position: Vec,
                        color: String = s"rgb(${Random.nextInt(256)}, ${Random.nextInt(256)}, ${Random.nextInt(256)})") {
 
-  def move(dir: Direction): Unit = {
-    position = dir match {
-      case Direction.Up => position.copy(y = position.y + -2)
-      case Direction.Down => position.copy(y = position.y + 2)
-      case Direction.Left => position.copy(x = position.x + -2)
-      case Direction.Right => position.copy(x = position.x + 2)
-    }
+  def move(tileIndex: Int): Unit = {
+    val tilesX = 40
+    val x = tileIndex % tilesX * 48 + 48 / 2
+    val y = tileIndex / tilesX * 48 + 48 / 2
+    position = Vec(x, y)
   }
 }
 

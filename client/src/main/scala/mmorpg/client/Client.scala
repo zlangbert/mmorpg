@@ -2,15 +2,15 @@ package mmorpg.client
 
 import java.util.UUID
 
-import mmorpg.client.gfx.{Sprite, SpriteSheet}
+import mmorpg.client.gfx.SpriteSheet
 import mmorpg.client.net.WebSocketConnection
 import mmorpg.messages.Message._
 import mmorpg.player.PlayerState
-import mmorpg.util.Direction
 import org.scalajs.dom
 import org.scalajs.dom._
 
 import scala.collection.mutable
+import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExport
 
 @JSExport
@@ -18,10 +18,8 @@ object Client {
 
   var id: UUID = null
 
-  var leftPressed = false
-  var upPressed = false
-  var rightPressed = false
-  var downPressed = false
+  var mouseX = 0
+  var mouseY = 0
 
   val players = mutable.Map[UUID, PlayerState]()
   val world = Array.tabulate(40, 40) { case (x, y) =>
@@ -42,22 +40,14 @@ object Client {
     canvas.width = canvas.parentElement.clientWidth
     canvas.height = canvas.parentElement.clientHeight
 
-    dom.document.onkeydown = { e: KeyboardEvent =>
-      Direction.fromKeyCode(e.keyCode) match {
-        case Direction.Up => upPressed = true
-        case Direction.Down => downPressed = true
-        case Direction.Left => leftPressed = true
-        case Direction.Right => rightPressed = true
-      }
+    canvas.onmousemove = { e: MouseEvent =>
+      mouseX = e.clientX.toInt
+      mouseY = e.clientY.toInt
     }
 
-    dom.document.onkeyup = { e: KeyboardEvent =>
-      Direction.fromKeyCode(e.keyCode) match {
-        case Direction.Up => upPressed = false
-        case Direction.Down => downPressed = false
-        case Direction.Left => leftPressed = false
-        case Direction.Right => rightPressed = false
-      }
+    canvas.onclick = { e: MouseEvent =>
+      val tileIndex = (e.clientY / 48).toInt * 40 + (e.clientX / 48).toInt
+      socket.send(Move(id, tileIndex))
     }
 
     Assets.onReady { () =>
@@ -76,11 +66,6 @@ object Client {
 
       DebugInfo.frameStart()
 
-      if (leftPressed) socket.send(Move(id, Direction.Left))
-      if (upPressed) socket.send(Move(id, Direction.Up))
-      if (rightPressed) socket.send(Move(id, Direction.Right))
-      if (downPressed) socket.send(Move(id, Direction.Down))
-
       clear(ctx)
 
       for (x <- 0 until world.size; y <- 0 until world.size) {
@@ -88,9 +73,15 @@ object Client {
         sprite.renderAt(ctx, x*48, y*48)
       }
 
+      ctx.strokeStyle = "#FFDF7D"
+      ctx.lineWidth = 3
+      ctx.strokeRect(mouseX / 48 * 48, mouseY / 48 * 48, 48, 48)
+
       players.values.foreach { player =>
+        ctx.beginPath()
+        ctx.arc(player.position.x, player.position.y, 15, 0, 2 * js.Math.PI, false)
         ctx.fillStyle = player.color
-        ctx.fillRect(player.position.x, player.position.y, 25, 25)
+        ctx.fill()
       }
 
       DebugInfo.frameEnd()

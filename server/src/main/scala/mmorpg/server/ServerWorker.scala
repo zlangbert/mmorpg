@@ -1,13 +1,8 @@
 package mmorpg.server
 
-import java.util.UUID
-
 import akka.actor.{ActorRef, Props}
 import mmorpg.messages.Message._
 import mmorpg.messages.ServerMessage
-import mmorpg.player.PlayerState
-import mmorpg.util.Direction.Direction
-import mmorpg.util.Vec
 import spray.can.websocket.frame.TextFrame
 import spray.can.{Http, websocket}
 import spray.routing.HttpServiceActor

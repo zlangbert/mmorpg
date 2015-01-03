@@ -26,8 +26,8 @@ class PlayerActor(id: UUID, connection: ActorRef, world: ActorRef /*TODO: is thi
   lazy val messageHandler: Receive = {
     case Tick =>
     case AnnounceSpawn => sender() ! Spawn(id, state)
-    case Move(_, direction) =>
-      state.move(direction)
+    case Move(_, tileIndex) =>
+      state.move(tileIndex)
       sender() ! UpdateState(id, state)
   }
 
