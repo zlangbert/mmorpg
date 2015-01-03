@@ -21,7 +21,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "image":"..\/..\/..\/..\/..\/..\/..\/Desktop\/BrowserQuest\/client\/img\/3\/tilesheet.png",
+         "image":"images\/tilesheet.png",
          "imageheight":4704,
          "imagewidth":960,
          "margin":0,
