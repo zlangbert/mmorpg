@@ -31,11 +31,6 @@ object Assets {
     assetData(key)
   }
 
-  def register(key: String, data: String) = {
-    val image = dom.extensions.Image.createBase64Svg(data)
-    assetData += key -> image
-  }
-
   def onReady(f: () => Unit): Unit = {
     callbacks += f
   }

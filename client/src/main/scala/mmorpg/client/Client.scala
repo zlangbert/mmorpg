@@ -2,6 +2,7 @@ package mmorpg.client
 
 import java.util.UUID
 
+import mmorpg.client.gfx.{Sprite, SpriteSheet}
 import mmorpg.client.net.WebSocketConnection
 import mmorpg.messages.Message._
 import mmorpg.player.PlayerState
@@ -23,6 +24,10 @@ object Client {
   var downPressed = false
 
   val players = mutable.Map[UUID, PlayerState]()
+  val world = Array.tabulate(40, 40) { case (x, y) =>
+    val sheet = SpriteSheet(Assets("tilesheet"))
+    sheet(172)
+  }
 
   @JSExport
   def main(container: dom.HTMLDivElement) = {
@@ -78,11 +83,9 @@ object Client {
 
       clear(ctx)
 
-      for {
-        x <- 0 until ctx.canvas.width by 48
-        y <- 0 until ctx.canvas.height by 48
-      } {
-        ctx.drawImage(Assets("tilesheet"), 48*13, 48*8, 48, 48, x, y, 48, 48)
+      for (x <- 0 until world.size; y <- 0 until world.size) {
+        val sprite = world(x)(y)
+        sprite.renderAt(ctx, x*48, y*48)
       }
 
       players.values.foreach { player =>
