@@ -3,7 +3,6 @@ package mmorpg.client
 import java.util.UUID
 
 import mmorpg.client.net.WebSocketConnection
-import mmorpg.client.stubs.Stats
 import mmorpg.messages.Message._
 import mmorpg.player.PlayerState
 import mmorpg.util.Direction
@@ -56,11 +55,9 @@ object Client {
       }
     }
 
-    clear(ctx)
-
-    dom.setTimeout(() => {
+    Assets.onReady { () =>
       update(socket, ctx)
-    }, 50)
+    }
   }
 
   def clear(ctx: CanvasRenderingContext2D): Unit = {
@@ -81,12 +78,12 @@ object Client {
 
       clear(ctx)
 
-      /*for {
+      for {
         x <- 0 until ctx.canvas.width by 48
         y <- 0 until ctx.canvas.height by 48
       } {
         ctx.drawImage(Assets("tilesheet"), 48*13, 48*8, 48, 48, x, y, 48, 48)
-      }*/
+      }
 
       players.values.foreach { player =>
         ctx.fillStyle = player.color

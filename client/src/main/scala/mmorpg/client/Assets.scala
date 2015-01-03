@@ -3,23 +3,40 @@ package mmorpg.client
 import org.scalajs.dom
 
 import scala.collection.mutable
+import org.scalajs.dom
 import scalatags.JsDom.all._
 
 object Assets {
 
-  private val EmptyImage = img(src:="//:0").render
-  EmptyImage.onloadeddata = { e: dom.Event => println("loaded") }
-
+  /**
+   * Map from asset key to image
+   */
   private val assetData = mutable.Map[String, dom.HTMLImageElement]()
 
-  def init(): Unit = ()
+  /**
+   * onReady callbacks
+   */
+  private val callbacks = mutable.Buffer[() => Unit]()
+
+  assetData += "tilesheet" -> img(src:="/tilesheet.png").render
+
+  val readyCheck: Int = dom.setInterval(() => {
+    if (assetData.contains("tilesheet") && assetData("tilesheet").complete) {
+      callbacks.foreach(_())
+      dom.clearInterval(readyCheck)
+    }
+  }, 50)
 
   def apply(key: String): dom.HTMLImageElement = {
-    assetData.getOrElse(key, EmptyImage)
+    assetData(key)
   }
 
   def register(key: String, data: String) = {
     val image = dom.extensions.Image.createBase64Svg(data)
     assetData += key -> image
+  }
+
+  def onReady(f: () => Unit): Unit = {
+    callbacks += f
   }
 }

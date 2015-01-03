@@ -36,7 +36,6 @@ class PlayerManagerActor(world: ActorRef) extends Actor with ActorLogging {
       playerCount += 1
       context.actorOf(PlayerActor.props(id, connection, world), s"$id")
       player(id) ! Push(InitializeClient(id))
-      all ! Push(ImageData(id, "tilesheet", Assets.load()))
 
     /**
      * Kill player actor on disconnect
