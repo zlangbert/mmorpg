@@ -7,10 +7,10 @@ object Tmx {
   case class Map(version: Int, orientation: String,
                  width: Int, height: Int,
                  @key("renderorder") renderOrder: String,
-                 tilesets: Seq[TileSet],
+                 tilesets: Seq[Tileset],
                  layers: Seq[Layer])
 
-  case class TileSet(name: String,
+  case class Tileset(name: String,
                      @key("firstgid") firstGid: Int,
                      @key("tilewidth") tileWidth: Int,
                      @key("tileheight") tileHeight: Int,

@@ -2,11 +2,12 @@ package mmorpg
 
 import mmorpg.gfx.{Renderable, RenderingContext, TmxRenderer}
 import mmorpg.tmx.{Tmx, TmxLoader}
-import mmorpg.util.DelayedInit
+import mmorpg.util.{Logging, DelayedInit}
 
+import scala.concurrent.Future
 import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
-class World extends Renderable with DelayedInit {
+class World extends Renderable with DelayedInit with Logging {
 
   private var map: Tmx.Map = null
   private var renderer: TmxRenderer = null
@@ -14,14 +15,19 @@ class World extends Renderable with DelayedInit {
   init()
 
   override def renderAt(x: Int, y: Int)(implicit ctx: RenderingContext): Unit = {
-      renderer.renderAt(0, 0)
+    renderer.renderAt(0, 0)
+  }
+
+  private def loadMap(key: String): Future[Tmx.Map] = {
+    Log.debug(s"loading map: $key")
+    TmxLoader.load(key)
   }
 
   private def init(): Unit = {
-    //load map
-    waitFor(TmxLoader.load("test")).onSuccess { case m =>
+    waitFor(loadMap("test")).onSuccess { case m =>
       map = m
       renderer = new TmxRenderer(map)
+      Assets.load("test", map)
     }
   }
 }

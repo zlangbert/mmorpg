@@ -76,7 +76,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "image":"images\/tilesheet.png",
+         "image":"images\/tileset.png",
          "imageheight":4704,
          "imagewidth":960,
          "margin":0,

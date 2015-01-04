@@ -1,17 +1,15 @@
 package mmorpg
 
+import mmorpg.tmx.Tmx
 import org.scalajs.dom
-import org.scalajs.dom.HTMLImageElement
 
 import scala.collection.mutable
 import scala.concurrent.Promise
 import scalatags.JsDom.all._
-import mmorpg.util.DelayedInit
+import mmorpg.util.{Logging, DelayedInit}
 import scala.scalajs.js
 
-object Assets extends DelayedInit {
-
-  register("tilesheet", "/maps/test/images/tilesheet.png")
+object Assets extends DelayedInit with Logging {
 
   /**
    * Map from asset key to image
@@ -19,8 +17,9 @@ object Assets extends DelayedInit {
   private lazy val assetData = mutable.Map[String, dom.HTMLImageElement]()
 
   private def register(key: String, path: String): Unit = {
+    Log.debug(s"registering $key -> $path")
     val image = img(src:=path).render
-    val p = Promise[HTMLImageElement]()
+    val p = Promise[dom.HTMLImageElement]()
 
     //resolve promise when the image is fully loaded
     image.asInstanceOf[js.Dynamic].onload = { () =>
@@ -38,4 +37,12 @@ object Assets extends DelayedInit {
    * @return The image
    */
   def apply(key: String): dom.HTMLImageElement = assetData(key)
+
+  def load(mapName: String, map: Tmx.Map): Unit = {
+    map.tilesets.foreach { tileset =>
+      val key = tileset.name
+      val path = s"/maps/$mapName/${tileset.imagePath}"
+      register(key, path)
+    }
+  }
 }
