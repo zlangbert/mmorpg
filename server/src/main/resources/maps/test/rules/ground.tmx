@@ -6,7 +6,7 @@
   <property name="NoOverlappingRules" value="yes"/>
  </properties>
  <tileset firstgid="1" name="tileset" tilewidth="48" tileheight="48">
-  <image source="../images/tilesheet.png" width="960" height="4704"/>
+  <image source="../images/tileset.png" width="960" height="4704"/>
  </tileset>
  <tileset firstgid="1961" name="rules" tilewidth="48" tileheight="48">
   <image source="../images/rules.png" width="480" height="480"/>
