@@ -2,6 +2,7 @@ package mmorpg
 
 import java.util.UUID
 
+import mmorpg.assets.{Asset, Assets}
 import mmorpg.gfx._
 import mmorpg.input.MouseHandler
 import mmorpg.messages.Message.Move
@@ -12,7 +13,6 @@ import org.scalajs.dom
 import org.scalajs.dom.{CanvasRenderingContext2D, HTMLCanvasElement, MouseEvent}
 
 import scala.collection.mutable
-import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExport
 
 @JSExport
@@ -30,6 +30,10 @@ object Client {
   val world = new World
   val players = mutable.Map[UUID, PlayerState]()
 
+  //DELETE ME
+  Assets.loadSprite("clotharmor")
+  val playerSprite = Sprite(Assets("clotharmor", Asset.Sprite))
+
   @JSExport
   def main(container: dom.HTMLDivElement) = {
 
@@ -38,7 +42,7 @@ object Client {
     canvas.width = canvas.parentElement.clientWidth
     canvas.height = canvas.parentElement.clientHeight
 
-    canvas.onclick = { e: MouseEvent =>
+    mouseHandler.onClick { e: MouseEvent =>
       val tileIndex = (e.clientY / 48).toInt * 40 + (e.clientX / 48).toInt
       socket.send(Move(id, tileIndex))
     }
@@ -63,10 +67,7 @@ object Client {
       ctx.strokeRect(mouseHandler.x / 48 * 48, mouseHandler.y / 48 * 48, 48, 48)
 
       players.values.foreach { player =>
-        ctx.beginPath()
-        ctx.arc(player.position.x, player.position.y, 15, 0, 2 * js.Math.PI, false)
-        ctx.fillStyle = player.color
-        ctx.fill()
+        playerSprite.renderAt(player.position.x, player.position.y)
       }
 
       DebugInfo.frameEnd()

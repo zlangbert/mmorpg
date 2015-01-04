@@ -57,6 +57,9 @@ class ServerWorkerImpl(val serverConnection: ActorRef) extends ServerWorker {
       pathPrefix("maps") {
         getFromResourceDirectory("maps") //TODO: this will list directory contents
       } ~
+      pathPrefix("sprites") {
+        getFromResourceDirectory("sprites")
+      } ~
       pathPrefix("public") {
         getFromResourceDirectory("")
       }

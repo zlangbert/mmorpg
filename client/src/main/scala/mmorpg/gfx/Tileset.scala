@@ -1,6 +1,6 @@
 package mmorpg.gfx
 
-import mmorpg.Assets
+import mmorpg.assets.{Asset, Assets}
 import mmorpg.tmx.Tmx
 import mmorpg.util.Vec
 
@@ -11,7 +11,7 @@ class Tileset(underlying: Tmx.Tileset) {
   /**
    * The tileset image
    */
-  private lazy val img = Assets(underlying.name)
+  private lazy val img = Assets(underlying.name, Asset.Tileset)
 
   /**
    * Cache for created tiles

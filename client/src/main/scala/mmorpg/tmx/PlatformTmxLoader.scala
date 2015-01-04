@@ -1,6 +1,7 @@
 package mmorpg.tmx
 
 import org.scalajs.dom.extensions.Ajax
+
 import scala.concurrent.Future
 import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 

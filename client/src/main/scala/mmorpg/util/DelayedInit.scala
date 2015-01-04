@@ -1,8 +1,9 @@
 package mmorpg.util
 
+import org.scalajs.dom
+
 import scala.collection.mutable
 import scala.concurrent.Future
-import org.scalajs.dom
 
 trait DelayedInit {
 

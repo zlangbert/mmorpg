@@ -10,11 +10,11 @@ class TmxRenderer(map: Tmx.Map) extends Renderable {
     map.layers.filter(_.visible).foreach { layer =>
       layer.data.zipWithIndex
         .filterNot { case (gid, _) => isEmptyTile(gid) }
-        .foreach(render)
+        .foreach(renderTile)
     }
   }
 
-  private def render(t: (Int, Int))(implicit ctx: RenderingContext): Unit = {
+  private def renderTile(t: (Int, Int))(implicit ctx: RenderingContext): Unit = {
     val (gid, index) = t
     val tileset = tilesetByGid(gid)
     val tile = tileset(gid)

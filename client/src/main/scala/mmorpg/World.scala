@@ -1,8 +1,9 @@
 package mmorpg
 
+import mmorpg.assets.Assets
 import mmorpg.gfx.{Renderable, RenderingContext, TmxRenderer}
 import mmorpg.tmx.{Tmx, TmxLoader}
-import mmorpg.util.{Logging, DelayedInit}
+import mmorpg.util.{DelayedInit, Logging}
 
 import scala.concurrent.Future
 import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
@@ -27,7 +28,7 @@ class World extends Renderable with DelayedInit with Logging {
     waitFor(loadMap("test")).onSuccess { case m =>
       map = m
       renderer = new TmxRenderer(map)
-      Assets.load("test", map)
+      Assets.loadTilesets("test", map)
     }
   }
 }
