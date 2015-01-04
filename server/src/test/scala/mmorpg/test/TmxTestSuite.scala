@@ -1,17 +1,16 @@
 package mmorpg.test
 
-import java.io.File
-
 import mmorpg.tmx.TmxLoader
 import utest._
+
+import scala.concurrent.Await
+import scala.concurrent.duration._
 
 object TmxTestSuite extends TestSuite {
   val tests = TestSuite {
     "load a tmx map" - {
 
-      val file = getClass.getResource("/maps/test.json").getFile
-      val path = new File(file).toPath
-      val map = TmxLoader.load(path)
+      val map = Await.result(TmxLoader.load("test"), 1.second)
 
       assert(map.version == 1)
       assert(map.orientation == "orthogonal")
