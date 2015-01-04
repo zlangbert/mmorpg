@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="48" tileheight="48">
+ <properties>
+  <property name="AutomappingRadius" value="3"/>
+  <property name="DeleteTiles" value="yes"/>
+  <property name="NoOverlappingRules" value="yes"/>
+ </properties>
+ <tileset firstgid="1" name="tileset" tilewidth="48" tileheight="48">
+  <image source="../images/tilesheet.png" width="960" height="4704"/>
+ </tileset>
+ <tileset firstgid="1961" name="rules" tilewidth="48" tileheight="48">
+  <image source="../images/rules.png" width="480" height="480"/>
+ </tileset>
+ <layer name="regions" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxbyc5ANFjJDsHobHLVUQpoZe5AAgCyggbh
+  </data>
+ </layer>
+ <layer name="input1_base" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAerGKHYGqpGwWYAACdWQLF
+  </data>
+ </layer>
+ <layer name="input2_base" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxbxc4wCgYRAAAWKACy
+  </data>
+ </layer>
+ <layer name="input3_base" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAPrGKHYGqpGwUQAAB8KQLF
+  </data>
+ </layer>
+ <layer name="input4_base" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAerGKHYGqpoxTQww56AwAv9QN2
+  </data>
+ </layer>
+ <layer name="output1_ground" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAe8AIxHxHqFIFYiQRzRwECAAB5EABf
+  </data>
+ </layer>
+ <layer name="output2_ground" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxTZhgFgwkAADhAACQ=
+  </data>
+ </layer>
+ <layer name="output3_ground" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAPcAMxDxHq5IFYgUw7RiIAAGqYAFc=
+  </data>
+ </layer>
+ <layer name="output4_ground" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAe8AIxHxHqFIFYiQRzyQX8dLCD3gAAhXwAbg==
+  </data>
+ </layer>
+</map>

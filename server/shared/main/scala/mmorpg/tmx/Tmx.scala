@@ -7,7 +7,8 @@ object Tmx {
   case class Map(version: Int, orientation: String,
                  width: Int, height: Int,
                  @key("renderorder") renderOrder: String,
-                 tilesets: Seq[TileSet])
+                 tilesets: Seq[TileSet],
+                 layers: Seq[Layer])
 
   case class TileSet(name: String,
                      @key("firstgid") firstGid: Int,

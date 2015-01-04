@@ -3,5 +3,5 @@ package mmorpg.gfx
 import org.scalajs.dom
 
 trait Renderable {
-  def renderAt(ctx: dom.CanvasRenderingContext2D, x: Int, y: Int): Unit
+  def renderAt(x: Int, y: Int)(implicit ctx: dom.CanvasRenderingContext2D): Unit
 }

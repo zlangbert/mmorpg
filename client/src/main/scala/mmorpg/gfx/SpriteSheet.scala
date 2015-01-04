@@ -16,14 +16,14 @@ class SpriteSheet(img: dom.HTMLImageElement) {
   /**
    * Gets the sprite at an index. Sprites are
    * created as needed
-   * @param index The index of the sprite
+   * @param tileId The index of the sprite
    * @return The sprite at the specified index
    */
-  def apply(index: Int): Sprite = {
-    spriteCache.getOrElseUpdate(index, {
+  def apply(tileId: Int): Sprite = {
+    spriteCache.getOrElseUpdate(tileId, {
       val tilesX = img.width / 48
-      val offsetX = index % tilesX * DefaultSpriteConfig.tileSize
-      val offsetY = index / tilesX * DefaultSpriteConfig.tileSize
+      val offsetX = tileId % tilesX * DefaultSpriteConfig.tileSize
+      val offsetY = tileId / tilesX * DefaultSpriteConfig.tileSize
       Sprite(img, DefaultSpriteConfig.copy(offsetX = offsetX, offsetY = offsetY))
     })
   }

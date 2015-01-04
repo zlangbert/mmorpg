@@ -2,11 +2,10 @@ package mmorpg
 
 import java.util.UUID
 
-import mmorpg.gfx.SpriteSheet
+import mmorpg.gfx._
 import mmorpg.messages.Message.Move
 import mmorpg.net.WebSocketConnection
 import mmorpg.player.PlayerState
-import mmorpg.tmx.TmxLoader
 import org.scalajs.dom
 import org.scalajs.dom.{CanvasRenderingContext2D, HTMLCanvasElement, MouseEvent}
 
@@ -22,16 +21,13 @@ object Client {
   val socket = WebSocketConnection(dom.window.location.hostname, 8080, MessageHandler())
 
   val canvas = dom.document.getElementById("canvas").asInstanceOf[HTMLCanvasElement]
-  val ctx = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
+  implicit val ctx = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
 
   var mouseX = 0
   var mouseY = 0
 
+  val world = new World
   val players = mutable.Map[UUID, PlayerState]()
-  val world = Array.tabulate(40, 40) { case (x, y) =>
-    val sheet = SpriteSheet(Assets("tilesheet"))
-    sheet(172)
-  }
 
   @JSExport
   def main(container: dom.HTMLDivElement) = {
@@ -47,36 +43,24 @@ object Client {
     }
 
     canvas.onclick = { e: MouseEvent =>
-      println("yep")
-    }
-
-    canvas.onclick = { e: MouseEvent =>
       val tileIndex = (e.clientY / 48).toInt * 40 + (e.clientX / 48).toInt
       socket.send(Move(id, tileIndex))
     }
 
     Assets.onReady { () =>
-      update(socket, ctx)
+      update(socket)
     }
   }
 
-  def clear(ctx: CanvasRenderingContext2D): Unit = {
-    ctx.fillStyle = "#ffffff"
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-  }
-
-  def update(socket: WebSocketConnection, ctx: CanvasRenderingContext2D): Unit = {
+  def update(socket: WebSocketConnection)(implicit ctx: CanvasRenderingContext2D): Unit = {
 
     def step(time: Double): Unit = {
 
       DebugInfo.frameStart()
 
-      clear(ctx)
+      ctx.clear()
 
-      for (x <- 0 until world.size; y <- 0 until world.size) {
-        val sprite = world(x)(y)
-        sprite.renderAt(ctx, x*48, y*48)
-      }
+      world.renderAt(0, 0)
 
       ctx.strokeStyle = "#FFDF7D"
       ctx.lineWidth = 3
