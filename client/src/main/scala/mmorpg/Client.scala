@@ -6,6 +6,7 @@ import mmorpg.gfx._
 import mmorpg.messages.Message.Move
 import mmorpg.net.WebSocketConnection
 import mmorpg.player.PlayerState
+import mmorpg.util.DelayedInit
 import org.scalajs.dom
 import org.scalajs.dom.{CanvasRenderingContext2D, HTMLCanvasElement, MouseEvent}
 
@@ -47,7 +48,7 @@ object Client {
       socket.send(Move(id, tileIndex))
     }
 
-    Assets.onReady { () =>
+    DelayedInit.waitFor(Assets, world) {
       update(socket)
     }
   }
