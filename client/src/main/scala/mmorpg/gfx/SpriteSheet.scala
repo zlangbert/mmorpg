@@ -1,4 +1,4 @@
-package mmorpg.client.gfx
+package mmorpg.gfx
 
 import org.scalajs.dom
 

@@ -1,4 +1,4 @@
-package mmorpg.client.net
+package mmorpg.net
 
 object ConnectionState {
 

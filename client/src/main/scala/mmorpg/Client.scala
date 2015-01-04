@@ -1,13 +1,14 @@
-package mmorpg.client
+package mmorpg
 
 import java.util.UUID
 
-import mmorpg.client.gfx.SpriteSheet
-import mmorpg.client.net.WebSocketConnection
-import mmorpg.messages.Message._
+import mmorpg.gfx.SpriteSheet
+import mmorpg.messages.Message.Move
+import mmorpg.net.WebSocketConnection
 import mmorpg.player.PlayerState
+import mmorpg.tmx.TmxLoader
 import org.scalajs.dom
-import org.scalajs.dom._
+import org.scalajs.dom.{CanvasRenderingContext2D, HTMLCanvasElement, MouseEvent}
 
 import scala.collection.mutable
 import scala.scalajs.js
@@ -17,6 +18,11 @@ import scala.scalajs.js.annotation.JSExport
 object Client {
 
   var id: UUID = null
+
+  val socket = WebSocketConnection(dom.window.location.hostname, 8080, MessageHandler())
+
+  val canvas = dom.document.getElementById("canvas").asInstanceOf[HTMLCanvasElement]
+  val ctx = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
 
   var mouseX = 0
   var mouseY = 0
@@ -32,17 +38,16 @@ object Client {
 
     DebugInfo.attach(container)
 
-    val socket = WebSocketConnection(dom.window.location.hostname, 8080, MessageHandler())
-
-    val canvas = dom.document.getElementById("canvas").asInstanceOf[HTMLCanvasElement]
-    val ctx = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
-
     canvas.width = canvas.parentElement.clientWidth
     canvas.height = canvas.parentElement.clientHeight
 
     canvas.onmousemove = { e: MouseEvent =>
       mouseX = e.clientX.toInt
       mouseY = e.clientY.toInt
+    }
+
+    canvas.onclick = { e: MouseEvent =>
+      println("yep")
     }
 
     canvas.onclick = { e: MouseEvent =>

@@ -1,4 +1,4 @@
-package mmorpg.client
+package mmorpg
 
 import mmorpg.messages.Message._
 

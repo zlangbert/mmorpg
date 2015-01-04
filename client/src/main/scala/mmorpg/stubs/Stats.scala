@@ -1,4 +1,4 @@
-package mmorpg.client.stubs
+package mmorpg.stubs
 
 import org.scalajs.dom.HTMLElement
 

@@ -31,7 +31,8 @@ lazy val client = project.in(file("client"))
   .settings(
     libraryDependencies ++= Seq(
       "org.scala-js" %%% "scalajs-dom" % "0.7.0"
-    )
+    ),
+    crossTarget := crossTarget.value / "public"
   )
 
 lazy val server = project.in(file("server"))

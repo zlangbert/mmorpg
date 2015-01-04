@@ -1,7 +1,7 @@
-package mmorpg.client.net
+package mmorpg.net
 
-import mmorpg.client.MessageHandler
-import mmorpg.client.net.ConnectionState.ConnectionState
+import mmorpg.MessageHandler
+import mmorpg.net.ConnectionState.ConnectionState
 import mmorpg.messages.Message._
 import org.scalajs.dom
 import org.scalajs.dom.MessageEvent

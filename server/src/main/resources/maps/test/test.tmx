@@ -10,9 +10,24 @@
    </terrain>
   </terraintypes>
  </tileset>
- <layer name="Tile Layer 1" width="20" height="20">
+ <layer name="ground" width="20" height="20">
   <data encoding="base64" compression="zlib">
    eJxdlFuyhCAMRPOvoDsYHdiCyBaQ2f96LlN1usjcj5SQZ5t02M3sHHIPSUPeQ+KQNuQzpHB/0GXuEd91SBiyD1nItRL3GtKx69uo881d8Yn4J74beFbqfc8X5wP/zdVSXAVTAEvm/BDfiJc+gkP4buJvd96I6/zjTnzBp4Bjw/909SWH68mKrpBLsZk6Faw39sY3kSeRX9geh/GDXPjqPxp+vn8d3+zqaR7JzSli/1/3Iofmo9kWbJqpel8dvkid3c0hk1sYxS3N/kKnXr7J312+jv3C9nax4kvlvINtIe4E24r/Sk7fu+56pRl+8Ms2uSzOPfgK3+3qBWKbsyleeyh+nG4mwqa9Sy7+QV/RX+6fHps7qTj1oZM7uL6J/wf5NBfxK3IP+Eq/2O9OnzY5IF/thHhVbHJbO3zY3OVik6eB/C+HY7XJSXFxcf3PNt+v4HqovT6o0WzyXpztLua0yVn1+rTf2WuvNKNk850S57S31eUTthf29E82+933x/VQuxtsvmV6Z8Tj7s7qb3P3Hdy761kkr97NZHNn9Hb8ATSqPig=
+  </data>
+ </layer>
+ <layer name="ground2" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztzMkNgDAUxND0XwEQ6CALdJC1L9zDvyTSWHpXO6fUPh04ccHjxmP4BUQkZLz4DL+CioaOgWn4KbVyPyJFDEY=
+  </data>
+ </layer>
+ <layer name="buildings" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztzNd1gWEAgGEDhSgL6BYIggWUYIE0LIC0BXQLpCir5Znhc+Hmf895bt9Y7HrdECfBLUlSpMkE/LLkyFOgSIkylYDfHVVq1LmnQZNWwK9Nhy49HugzYBjwe+SJZ154ZcSYScBvyow5b7zzwSdfAb8FS1as2bBlxz7g980Pv/xx4MiJc8AvKirqsv4BdbEdYQ==
+  </data>
+ </layer>
+ <layer name="items" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjALyADsQc0AxJxBzDaxzcAI2KpsnBaVZoZhaQBKKhwoAAKecAIc=
   </data>
  </layer>
 </map>

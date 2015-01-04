@@ -9,7 +9,7 @@ object Index {
   val skeleton =
     html(style:="height:100%",
       head(
-        script(src:="/client-fastopt.js"),
+        script(src:="/public/client-fastopt.js"),
         link(
           rel:="stylesheet",
           href:="https://cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/pure-min.css"
@@ -18,7 +18,6 @@ object Index {
       body(style:="height:100%",
         onload:=boot,
         div(id:="header"),
-        img(src:="tilesheet.png", style:="display:none;"),
         div(id:="contents", style:="height:100%",
           canvas(id:="canvas")
         ),

@@ -7,7 +7,7 @@ import mmorpg.messages.Message._
 import mmorpg.messages.ServerMessage._
 import mmorpg.{Index, Server}
 import spray.can.Http.ConnectionClosed
-import spray.http.{HttpEntity, MediaTypes}
+import spray.http.{HttpHeaders, HttpHeader, HttpEntity, MediaTypes}
 
 class ServerWorkerImpl(val serverConnection: ActorRef) extends ServerWorker {
 
@@ -50,7 +50,16 @@ class ServerWorkerImpl(val serverConnection: ActorRef) extends ServerWorker {
           HttpEntity(MediaTypes.`text/html`, Index.skeleton.render)
         }
       } ~
-      getFromResourceDirectory("")
+      path("maps" / Segment / "data") { map =>
+        val path = s"maps/$map/$map.json"
+        getFromResource(path)
+      } ~
+      pathPrefix("maps") {
+        getFromResourceDirectory("maps") //TODO: this will list directory contents
+      } ~
+      pathPrefix("public") {
+        getFromResourceDirectory("")
+      }
     }
   }
 }

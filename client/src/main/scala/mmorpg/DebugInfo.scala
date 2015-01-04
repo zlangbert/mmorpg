@@ -1,7 +1,8 @@
-package mmorpg.client
+package mmorpg
 
-import mmorpg.client.stubs.Stats
+import mmorpg.stubs.Stats
 import org.scalajs.dom
+import org.scalajs.dom.KeyboardEvent
 
 object DebugInfo {
 
@@ -16,7 +17,13 @@ object DebugInfo {
   frameTimeCounter.domElement.style.position = "absolute"
   frameTimeCounter.domElement.style.top = "48px"
   frameTimeCounter.domElement.style.right = "0px"
-  
+
+  dom.document.onkeypress = { e: KeyboardEvent =>
+    if (e.charCode == 96) {
+      if (isHidden) show()
+      else hide()
+    }
+  }
 
   def attach(parent: dom.HTMLElement): Unit = {
     parent.appendChild(fpsCounter.domElement)
@@ -31,5 +38,19 @@ object DebugInfo {
   def frameEnd(): Unit = {
     fpsCounter.end()
     frameTimeCounter.end()
+  }
+
+  def show(): Unit = {
+    fpsCounter.domElement.style.display = "initial"
+    frameTimeCounter.domElement.style.display = "initial"
+  }
+
+  def hide(): Unit = {
+    fpsCounter.domElement.style.display = "none"
+    frameTimeCounter.domElement.style.display = "none"
+  }
+
+  def isHidden: Boolean = {
+    fpsCounter.domElement.style.display == "none"
   }
 }
