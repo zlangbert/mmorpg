@@ -1,9 +1,8 @@
 package mmorpg
 
-import mmorpg.gfx.{Renderable, TmxRenderer}
+import mmorpg.gfx.{Renderable, RenderingContext, TmxRenderer}
 import mmorpg.tmx.{Tmx, TmxLoader}
 import mmorpg.util.DelayedInit
-import org.scalajs.dom.CanvasRenderingContext2D
 
 import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
@@ -14,7 +13,7 @@ class World extends Renderable with DelayedInit {
 
   init()
 
-  override def renderAt(x: Int, y: Int)(implicit ctx: CanvasRenderingContext2D): Unit = {
+  override def renderAt(x: Int, y: Int)(implicit ctx: RenderingContext): Unit = {
       renderer.renderAt(0, 0)
   }
 

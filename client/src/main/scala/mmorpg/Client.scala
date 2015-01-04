@@ -3,6 +3,7 @@ package mmorpg
 import java.util.UUID
 
 import mmorpg.gfx._
+import mmorpg.input.MouseHandler
 import mmorpg.messages.Message.Move
 import mmorpg.net.WebSocketConnection
 import mmorpg.player.PlayerState
@@ -24,8 +25,7 @@ object Client {
   val canvas = dom.document.getElementById("canvas").asInstanceOf[HTMLCanvasElement]
   implicit val ctx = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
 
-  var mouseX = 0
-  var mouseY = 0
+  val mouseHandler = MouseHandler(canvas)
 
   val world = new World
   val players = mutable.Map[UUID, PlayerState]()
@@ -38,17 +38,12 @@ object Client {
     canvas.width = canvas.parentElement.clientWidth
     canvas.height = canvas.parentElement.clientHeight
 
-    canvas.onmousemove = { e: MouseEvent =>
-      mouseX = e.clientX.toInt
-      mouseY = e.clientY.toInt
-    }
-
     canvas.onclick = { e: MouseEvent =>
       val tileIndex = (e.clientY / 48).toInt * 40 + (e.clientX / 48).toInt
       socket.send(Move(id, tileIndex))
     }
 
-    DelayedInit.waitFor(Assets, world) {
+    DelayedInit.waitFor(Assets, socket, world) {
       update(socket)
     }
   }
@@ -65,7 +60,7 @@ object Client {
 
       ctx.strokeStyle = "#FFDF7D"
       ctx.lineWidth = 3
-      ctx.strokeRect(mouseX / 48 * 48, mouseY / 48 * 48, 48, 48)
+      ctx.strokeRect(mouseHandler.x / 48 * 48, mouseHandler.y / 48 * 48, 48, 48)
 
       players.values.foreach { player =>
         ctx.beginPath()

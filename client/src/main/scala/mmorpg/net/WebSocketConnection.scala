@@ -1,12 +1,15 @@
 package mmorpg.net
 
 import mmorpg.MessageHandler
-import mmorpg.net.ConnectionState.ConnectionState
 import mmorpg.messages.Message._
+import mmorpg.net.ConnectionState.ConnectionState
+import mmorpg.util.DelayedInit
 import org.scalajs.dom
 import org.scalajs.dom.MessageEvent
 
-class WebSocketConnection(url: String, port: Int, messageHandler: MessageHandler) {
+import scala.concurrent.Promise
+
+class WebSocketConnection(url: String, port: Int, messageHandler: MessageHandler) extends DelayedInit {
 
   private val socket = new dom.WebSocket(s"ws://$url:$port")
 
@@ -14,6 +17,15 @@ class WebSocketConnection(url: String, port: Int, messageHandler: MessageHandler
     val message = upickle.read[Message](e.data.toString)
     messageHandler(message)
   }
+
+  //wait for the socket to open before being ready
+  waitFor({
+    val p = Promise[Unit]()
+    socket.onopen = { e: dom.Event =>
+      p.success()
+    }
+    p.future
+  })
 
   /**
    * Gets the state of the underlying socket
@@ -32,7 +44,6 @@ class WebSocketConnection(url: String, port: Int, messageHandler: MessageHandler
 }
 
 object WebSocketConnection {
-
-  def apply(url: String, port: Int, messageHandler: MessageHandler): WebSocketConnection =
+  def apply(url: String, port: Int, messageHandler: MessageHandler) =
     new WebSocketConnection(url, port, messageHandler)
 }
