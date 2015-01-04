@@ -19,11 +19,12 @@ class Tileset(underlying: Tmx.Tileset) {
   private val tileCache = mutable.Map[Int, Tile]()
 
   /**
-   *
-   * @param id The id of the tile in this tileset
+   * Gets a Tile from this tileset by its global id
+   * @param globalId The global id of the tile
    * @return The tile
    */
-  def apply(id: Int): Tile = {
+  def apply(globalId: Int): Tile = {
+    val id = globalId - firstGid
     tileCache.getOrElseUpdate(id, {
       val tilesX = underlying.imageWidth / tileSize
       val offsetX = id % tilesX * tileSize
@@ -31,6 +32,12 @@ class Tileset(underlying: Tmx.Tileset) {
       new Tile(id, img, this, Vec(offsetX, offsetY))
     })
   }
+
+  /**
+   * The first global id for this tileset
+   * @return
+   */
+  def firstGid: Int = underlying.firstGid
 
   /**
    * The size of a tile in pixels
