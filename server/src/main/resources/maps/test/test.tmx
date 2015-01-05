@@ -35,7 +35,7 @@
  </layer>
  <layer name="items" width="20" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBg+gB2IOaCYE4i5BtY5OAEblc2TgtKsUEwtIAnFo2AUjIJRgA0AAHZyAIc=
+   eJzdkzkOwjAQRR0i1h4huAFwBg7BgYAzABVbSajYSqBiK4GK7Ta8wkUUOfFY6RjpKdLE/zmTOEr9T+WhoClCSffLkIGKwCFZW4cGNAU+09qcIOdSNX3NalwrbuaqpuMp1YWeJ/NFZ476+3gGMBT6bP45ngAWFl9L6N/h2cPB4msn3AvPfMNzh4dwXtP3kJ65NFlTuWbjzpLLPyjZ39Q37RHujXylxjCBKcz85Gc07RHuLcmvYA0b2EZ8ru/uSP4EZ7jA1bdnkupJ/gVv+MA3pc9UPyr7IZ4=
   </data>
  </layer>
  <layer name="collision" width="20" height="20" visible="0">
