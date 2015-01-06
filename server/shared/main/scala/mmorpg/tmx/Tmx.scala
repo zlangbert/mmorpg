@@ -43,7 +43,7 @@ object Tmx {
     }
   }
 
-  case class TileAnimation(duration: Int, tileid: Int)
+  case class TileAnimation(duration: Int, @key("tileid") tileId: Int)
 
   case class Layer(name: String,
                    data: Array[Int],
