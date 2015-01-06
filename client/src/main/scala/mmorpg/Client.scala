@@ -60,7 +60,12 @@ object Client {
 
   def update(socket: WebSocketConnection)(implicit ctx: CanvasRenderingContext2D): Unit = {
 
+    var lastTime: Double = 0
+
     def step(time: Double): Unit = {
+
+      implicit val delta: TimeDelta = time - lastTime
+      lastTime = time
 
       DebugInfo.frameStart()
 

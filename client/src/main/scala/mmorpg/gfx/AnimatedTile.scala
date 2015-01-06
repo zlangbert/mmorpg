@@ -1,5 +1,6 @@
 package mmorpg.gfx
 
+import mmorpg.gfx.animation.TileAnimation
 import mmorpg.tmx.Tmx
 import org.scalajs.dom.HTMLImageElement
 
@@ -8,29 +9,18 @@ import org.scalajs.dom.HTMLImageElement
  * @param localId The local id of this tile
  * @param img The tileset image
  * @param tileset The tileset this tile belongs to
- * @param animations The animation sequence
+ * @param sequence The animation sequence
  */
-case class AnimatedTile(localId: Int, img: HTMLImageElement, tileset: Tileset, animations: Seq[Tmx.TileAnimation])
+case class AnimatedTile(localId: Int, img: HTMLImageElement, tileset: Tileset, sequence: Seq[Tmx.TileAnimation])
   extends Tile {
 
-  var animationIndex = 0
-  var animationTime = 0
+  val animation = TileAnimation(sequence)
 
-  override def renderAt(x: Int, y: Int)(implicit ctx: RenderingContext): Unit = {
-    val animation = animations(animationIndex)
+  override def renderAt(x: Int, y: Int)(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
+    animation.update(delta)
     val offset = getOffset(animation.tileId)
     if (x >= ctx.canvas.width || y >= ctx.canvas.height) return
     ctx.drawImage(img, offset.x, offset.y, tileset.tileSize, tileset.tileSize,
       x, y, tileset.tileSize, tileset.tileSize)
-
-    animationTime += 1
-    if (animationTime >= 12) {
-      animationTime = 0
-      if (animationIndex >= animations.length-1) {
-        animationIndex = 0
-      } else {
-        animationIndex += 1
-      }
-    }
   }
 }

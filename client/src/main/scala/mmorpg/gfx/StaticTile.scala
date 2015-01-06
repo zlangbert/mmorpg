@@ -12,7 +12,7 @@ case class StaticTile(localId: Int, img: HTMLImageElement, tileset: Tileset) ext
 
   val offset = getOffset(localId)
 
-  override def renderAt(x: Int, y: Int)(implicit ctx: RenderingContext): Unit = {
+  override def renderAt(x: Int, y: Int)(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
 
     //this will go away when a proper camera is implemented and only visible tiles are rendered
     if (x >= ctx.canvas.width || y >= ctx.canvas.height) return

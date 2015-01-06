@@ -2,7 +2,6 @@ package mmorpg.gfx
 
 import mmorpg.assets.{Asset, Assets}
 import mmorpg.tmx.Tmx
-import mmorpg.util.Vec
 
 import scala.collection.mutable
 

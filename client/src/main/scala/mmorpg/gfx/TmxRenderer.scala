@@ -6,7 +6,7 @@ class TmxRenderer(map: Tmx.Map) extends Renderable {
 
   private val tilesets = map.tilesets.map(Tileset.apply)
 
-  override def renderAt(x: Int, y: Int)(implicit ctx: RenderingContext): Unit = {
+  override def renderAt(x: Int, y: Int)(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
     map.layers.filter(_.visible).foreach { layer =>
       layer.data.zipWithIndex
         .filterNot { case (gid, _) => isEmptyTile(gid) }
@@ -14,7 +14,7 @@ class TmxRenderer(map: Tmx.Map) extends Renderable {
     }
   }
 
-  private def renderTile(t: (Int, Int))(implicit ctx: RenderingContext): Unit = {
+  private def renderTile(t: (Int, Int))(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
     val (gid, index) = t
     val tileset = tilesetByGid(gid)
     val tile = tileset(gid)

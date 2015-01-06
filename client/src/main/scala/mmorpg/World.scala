@@ -1,7 +1,7 @@
 package mmorpg
 
 import mmorpg.assets.Assets
-import mmorpg.gfx.{Renderable, RenderingContext, TmxRenderer}
+import mmorpg.gfx.{TimeDelta, Renderable, RenderingContext, TmxRenderer}
 import mmorpg.tmx.{Tmx, TmxLoader}
 import mmorpg.util.{DelayedInit, Logging}
 
@@ -24,7 +24,7 @@ class World extends Renderable with DelayedInit with Logging {
     !map.isSolid(tileIndex)
   }
 
-  override def renderAt(x: Int, y: Int)(implicit ctx: RenderingContext): Unit = {
+  override def renderAt(x: Int, y: Int)(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
     renderer.renderAt(0, 0)
   }
 
