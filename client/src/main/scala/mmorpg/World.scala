@@ -27,8 +27,8 @@ class World extends Renderable with DelayedInit with Logging {
   private def init(): Unit = {
     waitFor(loadMap("test")).onSuccess { case m =>
       map = m
-      renderer = new TmxRenderer(map)
       Assets.loadTilesets("test", map)
+      renderer = new TmxRenderer(map)
     }
   }
 }

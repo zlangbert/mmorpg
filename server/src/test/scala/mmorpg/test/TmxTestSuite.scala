@@ -14,8 +14,8 @@ object TmxTestSuite extends TestSuite {
 
       assert(map.version == 1)
       assert(map.orientation == "orthogonal")
-      assert(map.width == 20)
-      assert(map.height == 20)
+      assert(map.width == 32)
+      assert(map.height == 32)
 
       "load tilesets" - {
         assert(map.tilesets.size > 0)

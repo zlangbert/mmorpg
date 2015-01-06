@@ -18,6 +18,9 @@ class Tileset(underlying: Tmx.Tileset) {
    */
   private val tileCache = mutable.Map[Int, Tile]()
 
+  //load animated tiles into the cache
+  loadAnimatedTiles()
+
   /**
    * Gets a Tile from this tileset by its global id
    * @param globalId The global id of the tile
@@ -26,10 +29,8 @@ class Tileset(underlying: Tmx.Tileset) {
   def apply(globalId: Int): Tile = {
     val id = globalId - firstGid
     tileCache.getOrElseUpdate(id, {
-      val tilesX = underlying.imageWidth / tileSize
-      val offsetX = id % tilesX * tileSize
-      val offsetY = id / tilesX * tileSize
-      new Tile(id, img, this, Vec(offsetX, offsetY))
+      val offset = getOffset(id)
+      new Tile(id, img, this, offset)
     })
   }
 
@@ -44,6 +45,27 @@ class Tileset(underlying: Tmx.Tileset) {
    * @return Tile size in pixels
    */
   def tileSize: Int = underlying.tileWidth
+
+  /**
+   * Calculates the pixel offset of a tile on
+   * this tileset
+   * @param globalId The tile id
+   * @return A Vec with the offset information
+   */
+  def getOffset(globalId: Int): Vec = {
+    val tilesX = underlying.imageWidth / tileSize
+    val offsetX = globalId % tilesX * tileSize
+    val offsetY = globalId / tilesX * tileSize
+    Vec(offsetX, offsetY)
+  }
+
+  private def loadAnimatedTiles(): Unit = {
+    underlying.tileInfos foreach { info =>
+      val id = info.id
+      val offset = getOffset(id)
+      tileCache += id -> new AnimatedTile(id, img, this, offset, info.animations)
+    }
+  }
 }
 
 object Tileset {

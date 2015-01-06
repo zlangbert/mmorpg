@@ -1,6 +1,6 @@
 package mmorpg.tmx
 
-import upickle.key
+import upickle.{Js, key}
 
 object Tmx {
 
@@ -16,7 +16,22 @@ object Tmx {
                      @key("tileheight") tileHeight: Int,
                      @key("image") imagePath: String,
                      @key("imagewidth") imageWidth: Int,
-                     @key("imageheight") imageHeight: Int)
+                     @key("imageheight") imageHeight: Int,
+                     @key("tiles") tileInfos: Seq[TileInfo])
+
+  case class TileInfo(id: Int, animations: Seq[TileAnimation])
+
+  object TileInfo {
+    implicit val reader = upickle.Reader[Seq[TileInfo]] {
+      case Js.Obj(values@_*) =>
+        values.map { case (id, data) =>
+          val animations = upickle.readJs[Seq[TileAnimation]](data("animation"))
+          TileInfo(id.toInt, animations)
+        }
+    }
+  }
+
+  case class TileAnimation(duration: Int, tileid: Int)
 
   case class Layer(name: String,
                    data: Array[Int],
