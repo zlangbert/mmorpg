@@ -27,9 +27,9 @@ class Tileset(underlying: Tmx.Tileset) {
    * @return The tile
    */
   def apply(globalId: Int): Tile = {
-    val id = globalId - firstGid
-    tileCache.getOrElseUpdate(id, {
-      new StaticTile(id, img, this)
+    val localId = globalId - firstGid
+    tileCache.getOrElseUpdate(localId, {
+      new StaticTile(localId, img, this)
     })
   }
 
@@ -46,18 +46,10 @@ class Tileset(underlying: Tmx.Tileset) {
   def tileSize: Int = underlying.tileWidth
 
   /**
-   * Calculates the pixel offset of a tile on
-   * this tileset
-   * @param globalId The tile id
-   * @return A Vec with the offset information
+   * The width of the tileset image in pixels
+   * @return Image width in pixels
    */
-  def getOffset(globalId: Int): Vec = {
-    val id = globalId - firstGid
-    val tilesX = underlying.imageWidth / tileSize
-    val offsetX = id % tilesX * tileSize
-    val offsetY = id / tilesX * tileSize
-    Vec(offsetX, offsetY)
-  }
+  def imageWidth: Int = underlying.imageWidth
 
   private def loadAnimatedTiles(): Unit = {
     underlying.tileInfos foreach { info =>
