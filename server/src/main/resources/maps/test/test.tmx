@@ -27,12 +27,12 @@
  </layer>
  <layer name="road_cover" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMAoGNzgIxIeB+NAA2Z8IpWMGyP6NUHrNANtfMED2l0LplgGyvxNKzxhg+wcq/ucOsP2w9HdggO0HgYHKA7AyaKDywGgehADkPLCeAVIvraeD/bA8eIABUh+C6sKjUDF6pMmNeOToESegMI4F4jggjgfiBCgbRK+lg/3DDQAATn0b8w==
+   eJxjYBgFo2AUjIJRMAoGN1gPxIeg9ECAjVB6zQi3v2CA7C+F0i0DZH8nlJ4xwPYPVPzPHWD7YenvwADbDwIDlQcSofRA5YHRPAgByHkAVB8dZqBPvQTLgweA+CADpD48ChWjR5rciEeOHnECCuNYII4D4nggToCyQfRaOtg/3AAAbt0cbQ==
   </data>
  </layer>
  <layer name="decoration" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJzl18kuBEEAxvFuY2K5GTtnywV3W4JYTpYDYnkBxHKy3SwXDJ7AGDyB/QnsZ/tytyS8gOU/mZnolKlp1d2DxJf8gq5SX01nmhpNs597POARTw6sp5pXvOE98IP+ed1tEIgPHqQizcH+FDo9SEWaoT/bIJx8FKDQwf48OvNRgEI9+txSlKFcMl6BSgt7KKW3DOUm/Y1oQrNkvAV+C/2/lWxebw5yTV63lVzjxmROEb3FKLHZ749w7Rkvoe+HWX8EoxjDeEgVqlFj6PcJ6+iMxVnc34weNIs5eDGPhVB/K9rQHmX9dMYyTPrnsYDFCGNL/K4Py/BjBauh9Xr42os+m/d/BatYizC2ztob2MQWtrEj9Nnt38YOdoXre3rQPg5wiCMcS/pqXZpWh3o0uL7ff4RjnAjXL/WgK1zjBre4k/R30NmJLnQr9AdyK7keeD9fCX13kj300zmAQQwJ/V731/nGuB34GzJB5ySmMC30+036xZziDOe4sL81bUux3+lzxaFiv+xcYTXLivNl54qfisq5QoyL+fEO7Nl4rjA7WxiTydysX7hn0SJ7nsT/l7HKXz2nfyeqz06ke/qTz5Pxc0c4dp4n1YifO8IxO6cnIBFJSI7Z7v53VN/LscwHsA9hgw==
+   eJzl18lPE1EAx/GZ1oblZllkObNc1HtbTJCwnAQPQFT+ATSiJxRugBegwF9AF/gLECh/AVLg7MYWQC4sif4DAt+m0zB5zOt0lrYk/JJPgDeP93uddOBVUZznFGc4x4UL61nNf1ziKvWDejPu00klAj8qUOli/0M6/ahApa6/VieTRjSh2cX+Bjob0YRmrf/QoyhHOMYfnHjS4wEEEZKs1YJnNvYQoDeIkJp93gt0o0dy/SViNvqLlVpebx3qTV63nexiz2TOY3qf4KnD/pjB2F/8074fZv1P+IwRjGpa8Rxtuv6IsI7KNY/N/U2qaVOYRhgzmNX6e9GH/izrV3Gt2qR/BrOYM7g2z+9GEEUMcSxo6w3y9S3eObz/cSxg0eDaEmt/xTJWsIqE0Oe0fxUJrAnj62raN2wgiU1sSfravYrSgU50eXPv38QWtoXx32raDnaxh30cSPpf0fkabzBgoT+Vfcl46v28I/QdSPbwns4hfMBHoT/suz1fH58Lf0PG6BzHBL4I/TGTfjHf8QM/8cv51pQVi/1unyuSFvtl5wq7iVqcLztXFCpG54pc42X+Axf2rD9XmJ0t9HnE3Joi3LNskT1P4v/LfOWuntNzidVnx+ieFvJ50n/uyMTJ82Q14ueOTMzO6SUoRRnK87a7+x2r7+V85hqaDmX3
   </data>
  </layer>
  <layer name="structures" width="32" height="32">
@@ -43,6 +43,11 @@
  <layer name="entrances" width="32" height="32">
   <data encoding="base64" compression="zlib">
    eJztzdENQEAABNH9uWsNNaAGFIAajoZtEWIjmZfM90jAe7oi9W4omf/o7+Tm0H/xd3Vb6A8AAPCFvUqHO2vm3/y93B36A3/1AD47Br4=
+  </data>
+ </layer>
+ <layer name="collision" width="32" height="32" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJztlkEOwCAIBH2G/39prw0R3V3AcNDENCXAgFTKGG91W9Ps22xE1oGfHRfDmYvndN6ZOqL5W47qG9GL8u25sDFYxuqcUT4ag5czytrpqnzFRr3PLH+nj3xPj9+Tj/aXCj5zZ5XeffKF8k//AobvMVFfkVqxPW8nV+0Q+wifraPKZ+QrfjR/lo3qKPzs+eSv781cN/gnX5GZ5zY/k634ruQzMVTtrusDjtsQmQ==
   </data>
  </layer>
 </map>
