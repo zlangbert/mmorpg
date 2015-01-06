@@ -3,10 +3,14 @@ package mmorpg.player
 import java.util.UUID
 
 import akka.actor.{Actor, ActorRef, Props}
+import akka.pattern.ask
+import akka.util.Timeout
 import mmorpg.Server
 import mmorpg.messages.Message._
 import mmorpg.messages.ServerMessage._
 import mmorpg.util.Vec
+
+import scala.concurrent.duration._
 
 /**
  * A per player actor in charge of tracking and mutating state
@@ -14,7 +18,10 @@ import mmorpg.util.Vec
  * @param connection The websocket connection actor
  * @param world The game world
  */
-class PlayerActor(id: UUID, connection: ActorRef, world: ActorRef /*TODO: is this needed?*/) extends Actor {
+class PlayerActor(id: UUID, connection: ActorRef, world: ActorRef) extends Actor {
+
+  implicit val ec = context.dispatcher
+  implicit val askTimeout: Timeout = 3.seconds
 
   val state = PlayerState(id, Vec(0, 0))
 
@@ -27,8 +34,12 @@ class PlayerActor(id: UUID, connection: ActorRef, world: ActorRef /*TODO: is thi
     case Tick =>
     case AnnounceSpawn => sender() ! Spawn(id, state)
     case Move(_, tileIndex) =>
-      state.move(tileIndex)
-      sender() ! UpdateState(id, state)
+      world ? MoveRequest(id, tileIndex) onSuccess {
+        case true =>
+          state.move(tileIndex)
+          world ! UpdateState(id, state)
+        case _ =>
+      }
   }
 
   /**

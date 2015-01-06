@@ -15,6 +15,15 @@ class World extends Renderable with DelayedInit with Logging {
 
   init()
 
+  def getTileIndex(x: Int, y: Int): Int = {
+    if (x > map.width * 48 || y > map.height * 48) -1
+    else y / 48 * map.height + x / 48
+  }
+
+  def tileIsWalkable(tileIndex: Int): Boolean = {
+    !map.isSolid(tileIndex)
+  }
+
   override def renderAt(x: Int, y: Int)(implicit ctx: RenderingContext): Unit = {
     renderer.renderAt(0, 0)
   }

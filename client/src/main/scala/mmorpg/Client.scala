@@ -49,7 +49,7 @@ object Client {
     }
 
     mouseHandler.onClick { e: MouseEvent =>
-      val tileIndex = (e.clientY / 48).toInt * 40 + (e.clientX / 48).toInt
+      val tileIndex = world.getTileIndex(e.clientX.toInt, e.clientY.toInt)
       socket.send(Move(id, tileIndex))
     }
 
@@ -68,7 +68,8 @@ object Client {
 
       world.renderAt(0, 0)
 
-      ctx.strokeStyle = "#FFDF7D"
+      ctx.strokeStyle = if (world.tileIsWalkable(world.getTileIndex(mouseHandler.x, mouseHandler.y))) "#FFDF7D" else "#DE1028"
+
       ctx.lineWidth = 3
       ctx.strokeRect(mouseHandler.x / 48 * 48, mouseHandler.y / 48 * 48, 48, 48)
 

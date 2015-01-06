@@ -8,7 +8,19 @@ object Tmx {
                  width: Int, height: Int,
                  @key("renderorder") renderOrder: String,
                  tilesets: Seq[Tileset],
-                 layers: Seq[Layer])
+                 layers: Seq[Layer]) {
+
+    private val collisionLayer = layers.find(_.name == "collision")
+
+    /**
+     * Checks for a collision tile at the given index
+     * @param tileIndex The tileIndex
+     * @return true if the tile exists on the collision layer
+     */
+    def isSolid(tileIndex: Int): Boolean =
+      tileIndex < 0 ||
+      collisionLayer.exists(_.data(tileIndex) != 0)
+  }
 
   case class Tileset(name: String,
                      @key("firstgid") firstGid: Int,

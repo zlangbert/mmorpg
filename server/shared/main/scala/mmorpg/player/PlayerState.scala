@@ -10,7 +10,7 @@ case class PlayerState(id: UUID, var position: Vec,
                        color: String = s"rgb(${Random.nextInt(256)}, ${Random.nextInt(256)}, ${Random.nextInt(256)})") {
 
   def move(tileIndex: Int): Unit = {
-    val tilesX = 40
+    val tilesX = 32 //TODO: get real map info somehow
     val x = tileIndex % tilesX * 48 + 48 / 2
     val y = tileIndex / tilesX * 48 + 48 / 2
     position = Vec(x, y)

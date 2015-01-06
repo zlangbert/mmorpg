@@ -19,4 +19,6 @@ object ServerMessage {
   case class ClientDisconnected(id: UUID) extends ServerMessage
 
   case object AnnounceSpawn
+
+  case class MoveRequest(id: UUID, tileIndex: Int) extends ServerMessage
 }
