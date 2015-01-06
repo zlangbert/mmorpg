@@ -61,7 +61,7 @@ class ServerWorkerImpl(val serverConnection: ActorRef) extends ServerWorker {
         getFromResourceDirectory("sprites")
       } ~
       pathPrefix("public") {
-        getFromResourceDirectory("")
+        getFromResourceDirectory("public")
       }
     }
   }

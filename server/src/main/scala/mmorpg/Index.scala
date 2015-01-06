@@ -9,7 +9,7 @@ object Index {
   val skeleton =
     html(style:="height:100%",
       head(
-        script(src:="/public/client-fastopt.js"),
+        script(src:="/public/js/client-fastopt.js"),
         link(
           rel:="stylesheet",
           href:="https://cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/pure-min.css"
