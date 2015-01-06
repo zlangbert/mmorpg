@@ -10,7 +10,8 @@ import mmorpg.net.WebSocketConnection
 import mmorpg.player.PlayerState
 import mmorpg.util.DelayedInit
 import org.scalajs.dom
-import org.scalajs.dom.{CanvasRenderingContext2D, HTMLCanvasElement, MouseEvent}
+import org.scalajs.dom.extensions.Color
+import org.scalajs.dom.{UIEvent, CanvasRenderingContext2D, HTMLCanvasElement, MouseEvent}
 
 import scala.collection.mutable
 import scala.scalajs.js.annotation.JSExport
@@ -42,6 +43,11 @@ object Client {
     canvas.width = canvas.parentElement.clientWidth
     canvas.height = canvas.parentElement.clientHeight
 
+    dom.window.onresize = { e: UIEvent =>
+      canvas.width = canvas.parentElement.clientWidth
+      canvas.height = canvas.parentElement.clientHeight
+    }
+
     mouseHandler.onClick { e: MouseEvent =>
       val tileIndex = (e.clientY / 48).toInt * 40 + (e.clientX / 48).toInt
       socket.send(Move(id, tileIndex))
@@ -58,7 +64,7 @@ object Client {
 
       DebugInfo.frameStart()
 
-      ctx.clear()
+      ctx.clear(Color.Black)
 
       world.renderAt(0, 0)
 
