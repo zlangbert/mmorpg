@@ -1,4 +1,4 @@
-package mmorpg.gfx.animation
+package mmorpg.gfx.animations
 
 import mmorpg.gfx.TimeDelta
 

@@ -65,6 +65,7 @@ lazy val serverSettings =
  */
 lazy val clientSettings =
   Seq(
+    requiresDOM := true,
     libraryDependencies ++= Seq(
       "org.scala-js" %%% "scalajs-dom" % "0.7.0"
     )
@@ -80,6 +81,7 @@ lazy val sharedSettings =
     unmanagedResourceDirectories in Compile +=
       baseDirectory.value  / "shared" / "main" / "resources",
     libraryDependencies ++= Seq(
+      "org.scala-lang.modules" %% "scala-async" % "0.9.2",
       "com.scalatags" %%% "scalatags" % "0.4.3-M3",
       "com.lihaoyi" %%% "upickle" % "0.2.6-M3"
     )

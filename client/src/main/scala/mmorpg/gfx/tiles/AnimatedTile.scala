@@ -1,6 +1,7 @@
-package mmorpg.gfx
+package mmorpg.gfx.tiles
 
-import mmorpg.gfx.animation.TileAnimation
+import mmorpg.gfx._
+import mmorpg.gfx.animations.TileAnimation
 import mmorpg.tmx.Tmx
 import org.scalajs.dom.HTMLImageElement
 

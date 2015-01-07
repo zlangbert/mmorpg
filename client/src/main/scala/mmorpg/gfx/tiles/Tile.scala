@@ -1,5 +1,6 @@
-package mmorpg.gfx
+package mmorpg.gfx.tiles
 
+import mmorpg.gfx.Renderable
 import mmorpg.util.Vec
 
 /**

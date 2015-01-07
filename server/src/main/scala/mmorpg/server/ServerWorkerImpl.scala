@@ -1,5 +1,6 @@
 package mmorpg.server
 
+import java.nio.file.{Path, Files, Paths}
 import java.util.UUID
 
 import akka.actor.ActorRef
@@ -50,12 +51,23 @@ class ServerWorkerImpl(val serverConnection: ActorRef) extends ServerWorker {
           HttpEntity(MediaTypes.`text/html`, Index.skeleton.render)
         }
       } ~
+      //TODO: use autowire
       path("maps" / Segment / "data") { map =>
         val path = s"maps/$map/$map.json"
         getFromResource(path)
       } ~
       pathPrefix("maps") {
         getFromResourceDirectory("maps") //TODO: this will list directory contents
+      } ~
+      path("sprites") {
+
+        import scala.collection.JavaConverters._
+
+        def toKey(p: Path) = p.getFileName.toString.split('.')(0)
+
+        val spritesDir = Paths.get(this.getClass.getResource("/sprites").toURI)
+        val sprites = Files.newDirectoryStream(spritesDir, "*.png").asScala.map(toKey)
+        complete(upickle.write(sprites))
       } ~
       pathPrefix("sprites") {
         getFromResourceDirectory("sprites")

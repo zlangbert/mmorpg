@@ -1,16 +1,14 @@
-package mmorpg.gfx
+package mmorpg.gfx.tiles
 
-import mmorpg.assets.{Asset, Assets}
+import mmorpg.assets.ImageLoader
 import mmorpg.tmx.Tmx
+import org.scalajs.dom.HTMLImageElement
 
+import scala.async.Async._
 import scala.collection.mutable
+import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
-class Tileset(underlying: Tmx.Tileset) {
-
-  /**
-   * The tileset image
-   */
-  private lazy val img = Assets(underlying.name, Asset.Tileset)
+class Tileset(underlying: Tmx.Tileset, img: HTMLImageElement) {
 
   /**
    * Cache for created tiles
@@ -59,5 +57,10 @@ class Tileset(underlying: Tmx.Tileset) {
 }
 
 object Tileset {
-  def apply(underlying: Tmx.Tileset) = new Tileset(underlying)
+  def apply(mapKey: String)(underlying: Tmx.Tileset) = {
+    async {
+      val img = await(ImageLoader(s"/maps/$mapKey/${underlying.imagePath}"))
+      new Tileset(underlying, img)
+    }
+  }
 }

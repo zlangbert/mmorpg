@@ -2,7 +2,6 @@ package mmorpg
 
 import java.util.UUID
 
-import mmorpg.assets.{Asset, Assets}
 import mmorpg.gfx._
 import mmorpg.input.MouseHandler
 import mmorpg.messages.Message.Move
@@ -11,7 +10,7 @@ import mmorpg.player.PlayerState
 import mmorpg.util.DelayedInit
 import org.scalajs.dom
 import org.scalajs.dom.extensions.Color
-import org.scalajs.dom.{UIEvent, CanvasRenderingContext2D, HTMLCanvasElement, MouseEvent}
+import org.scalajs.dom.{CanvasRenderingContext2D, HTMLCanvasElement, MouseEvent, UIEvent}
 
 import scala.collection.mutable
 import scala.scalajs.js.annotation.JSExport
@@ -31,10 +30,6 @@ object Client {
   val world = new World
   val players = mutable.Map[UUID, PlayerState]()
 
-  //DELETE ME
-  Assets.loadSprite("clotharmor")
-  val playerSprite = Sprite(Assets("clotharmor", Asset.Sprite))
-
   @JSExport
   def main(container: dom.HTMLDivElement) = {
 
@@ -53,7 +48,7 @@ object Client {
       socket.send(Move(id, tileIndex))
     }
 
-    DelayedInit.waitFor(Assets, socket, world) {
+    DelayedInit.waitFor(socket, world) {
       update(socket)
     }
   }
@@ -72,15 +67,6 @@ object Client {
       ctx.clear(Color.Black)
 
       world.renderAt(0, 0)
-
-      ctx.strokeStyle = if (world.tileIsWalkable(world.getTileIndex(mouseHandler.x, mouseHandler.y))) "#FFDF7D" else "#DE1028"
-
-      ctx.lineWidth = 3
-      ctx.strokeRect(mouseHandler.x / 48 * 48, mouseHandler.y / 48 * 48, 48, 48)
-
-      players.values.foreach { player =>
-        playerSprite.renderAt(player.position.x, player.position.y)
-      }
 
       DebugInfo.frameEnd()
 

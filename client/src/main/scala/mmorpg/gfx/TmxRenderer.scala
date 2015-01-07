@@ -1,10 +1,9 @@
 package mmorpg.gfx
 
+import mmorpg.gfx.tiles.Tileset
 import mmorpg.tmx.Tmx
 
-class TmxRenderer(map: Tmx.Map) extends Renderable {
-
-  private val tilesets = map.tilesets.map(Tileset.apply)
+class TmxRenderer(map: Tmx.Map, tilesets: Seq[Tileset]) extends Renderable {
 
   override def renderAt(x: Int, y: Int)(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
     map.layers.filter(_.visible).foreach { layer =>

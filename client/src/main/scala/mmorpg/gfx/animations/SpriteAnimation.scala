@@ -1,4 +1,4 @@
-package mmorpg.gfx.animation
+package mmorpg.gfx.animations
 
 class SpriteAnimation extends Animation {
 

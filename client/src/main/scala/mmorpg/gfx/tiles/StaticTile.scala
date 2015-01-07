@@ -1,5 +1,6 @@
-package mmorpg.gfx
+package mmorpg.gfx.tiles
 
+import mmorpg.gfx._
 import org.scalajs.dom.HTMLImageElement
 
 /**

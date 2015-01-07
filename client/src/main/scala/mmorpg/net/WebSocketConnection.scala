@@ -22,7 +22,7 @@ class WebSocketConnection(url: String, port: Int, messageHandler: MessageHandler
   waitFor({
     val p = Promise[Unit]()
     socket.onopen = { e: dom.Event =>
-      p.success()
+      p.success(())
     }
     p.future
   })

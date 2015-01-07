@@ -1,7 +1,8 @@
-package mmorpg.gfx.animation
+package mmorpg.gfx.animations
 
 import mmorpg.gfx.TimeDelta
 import mmorpg.tmx.Tmx
+
 import scala.collection.mutable
 
 class TileAnimation(sequence: Seq[Tmx.TileAnimation]) extends Animation {
