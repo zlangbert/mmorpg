@@ -53,13 +53,12 @@ lazy val serverSettings =
       "com.typesafe.akka" %% "akka-actor" % "2.3.8"
     ),
     scalaJsOutputDir := (classDirectory in Compile).value / "public" / "js",
-    compile in Compile <<= (compile in Compile) dependsOn (fastOptJS in (client, Compile))//,
-    //stage in Universal <<= (stage in Universal) dependsOn (fullOptJS in (client, Compile))
+    compile in Compile <<= (compile in Compile) dependsOn (fastOptJS in (client, Compile))
   ) ++ {
     Seq(fastOptJS, fullOptJS) map { packageJSKey =>
       crossTarget in (client, Compile, packageJSKey) := scalaJsOutputDir.value
     }
-  } ++ sharedSettings
+  } ++ sharedSettings ++ utest.jsrunner.Plugin.utestJvmSettings
 
 /**
  * Client settings
@@ -69,7 +68,7 @@ lazy val clientSettings =
     libraryDependencies ++= Seq(
       "org.scala-js" %%% "scalajs-dom" % "0.7.0"
     )
-  ) ++ sharedSettings
+  ) ++ sharedSettings ++ utest.jsrunner.Plugin.utestJsSettings
 
 /**
  * Shared settings
@@ -82,10 +81,8 @@ lazy val sharedSettings =
       baseDirectory.value  / "shared" / "main" / "resources",
     libraryDependencies ++= Seq(
       "com.scalatags" %%% "scalatags" % "0.4.3-M3",
-      "com.lihaoyi" %%% "upickle" % "0.2.6-M3",
-      "com.lihaoyi" %% "utest" % "0.2.5-M3" % "test"
-    ),
-    testFrameworks += new TestFramework("utest.runner.Framework")
+      "com.lihaoyi" %%% "upickle" % "0.2.6-M3"
+    )
   ) ++ baseSettings
 
 lazy val baseSettings = Seq(
