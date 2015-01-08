@@ -1,7 +1,6 @@
 package mmorpg
 
 import mmorpg.assets._
-import mmorpg.gfx.sprites.Sprite
 import mmorpg.gfx.tiles.Tileset
 import mmorpg.gfx.{Renderable, RenderingContext, TimeDelta, TmxRenderer}
 import mmorpg.tmx.Tmx
@@ -11,15 +10,7 @@ import scala.async.Async._
 import scala.concurrent.Future
 import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
-class World extends Renderable with DelayedInit with Logging {
-
-  //these should all be constructor args and the world built with a static world loader/builder
-  private var map: Tmx.Map = null
-  private var renderer: TmxRenderer = null
-  private var sprites: Seq[Sprite] = null
-  private var playerSprite: Sprite = null
-
-  waitFor(init())
+class World(map: Tmx.Map, renderer: TmxRenderer) extends Renderable with DelayedInit with Logging {
 
   def getTileIndex(x: Int, y: Int): Int = {
     if (x > map.width * 48 || y > map.height * 48) -1
@@ -39,18 +30,24 @@ class World extends Renderable with DelayedInit with Logging {
     ctx.strokeRect(Client.mouseHandler.x / 48 * 48, Client.mouseHandler.y / 48 * 48, 48, 48)
 
     Client.players.values.foreach { player =>
-      playerSprite.renderAt(player.position.x, player.position.y)
+      //playerSprite.renderAt(player.position.x, player.position.y)
     }
   }
+}
 
-  private def init(): Future[Unit] = async {
-    val mapKey = "test"
-    map = await(MapLoader(mapKey))
-    val tilesets = await(Future.sequence(map.tilesets.map(Tileset.apply(mapKey))))
-    renderer = new TmxRenderer(map, tilesets)
+object World {
 
-    val spriteKeys = await(SpriteLoader.spriteKeys)
-    sprites = await(Future.sequence(spriteKeys.map(SpriteLoader.apply)))
-    playerSprite = sprites.find(_.key == "clotharmor").get
+  /**
+   * Loads required assets and builds a new world
+   * @param mapKey The key of the map to load
+   * @return A new world
+   */
+  def apply(mapKey: String): Future[World] = {
+    async {
+      val map = await(MapLoader(mapKey))
+      val tilesets = await(Future.sequence(map.tilesets.map(Tileset.apply(mapKey))))
+      val renderer = new TmxRenderer(map, tilesets)
+      new World(map, renderer)
+    }
   }
 }

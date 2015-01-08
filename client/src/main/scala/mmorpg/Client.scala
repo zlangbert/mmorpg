@@ -7,12 +7,12 @@ import mmorpg.input.MouseHandler
 import mmorpg.messages.Message.Move
 import mmorpg.net.WebSocketConnection
 import mmorpg.player.PlayerState
-import mmorpg.util.DelayedInit
 import org.scalajs.dom
 import org.scalajs.dom.extensions.Color
 import org.scalajs.dom.{CanvasRenderingContext2D, HTMLCanvasElement, MouseEvent, UIEvent}
 
 import scala.collection.mutable
+import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 import scala.scalajs.js.annotation.JSExport
 
 @JSExport
@@ -27,8 +27,10 @@ object Client {
 
   val mouseHandler = MouseHandler(canvas)
 
-  val world = new World
   val players = mutable.Map[UUID, PlayerState]()
+
+  var _world: Option[World] = None
+  def world: World = _world.getOrElse(throw new Exception("world not ready"))
 
   @JSExport
   def main(container: dom.HTMLDivElement) = {
@@ -48,12 +50,18 @@ object Client {
       socket.send(Move(id, tileIndex))
     }
 
-    DelayedInit.waitFor(socket, world) {
+    /*DelayedInit.waitFor(socket, world) {
       update(socket)
+    }*/
+
+    World("test").onSuccess {
+      case world =>
+        _world = Option(world)
+        update(socket, world)
     }
   }
 
-  def update(socket: WebSocketConnection)(implicit ctx: CanvasRenderingContext2D): Unit = {
+  def update(socket: WebSocketConnection, world: World)(implicit ctx: CanvasRenderingContext2D): Unit = {
 
     var lastTime: Double = 0
 
