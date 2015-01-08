@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="27" height="24" tilewidth="48" tileheight="48">
+ <tileset firstgid="1" name="tileset" tilewidth="48" tileheight="48">
+  <image source="images/tileset.png" width="960" height="4704"/>
+ </tileset>
+ <layer name="background" width="27" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztwzENAAAMBKEb3r/mLpUBCaumqqr/AGNdCiE=
+  </data>
+ </layer>
+ <layer name="ground" width="27" height="24">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUDCQ4z8rAcIEVP00t8Bho1hNW/DS1wKi/KAfD1V/IANmOUTAKRsHgAQBPHjjj
+  </data>
+ </layer>
+ <layer name="walls" width="27" height="24">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2Bwg6WsDAzLgHgFEC8nQK8E4lWs5Nu1E6h3FxDvAeLdBOi9QLyPArvOAvWeI1L/U6C6ZxTY9RCo9xGR+i8C1V0a9RcGGPUX5f76CtT7DYi/A/EPKI0MkMV/AvEvCuziZGNg4AJibiDmgdLIAFmcF4j52LCbMwpGwUgFAA+pNWs=
+  </data>
+ </layer>
+ <layer name="carpet" width="27" height="24">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjCRgyczAYIUFWzNT3y5foJl+WLD/qF1Eg0SgmUlYcDIN7BoFo2AUjAIYAACcrgsU
+  </data>
+ </layer>
+ <layer name="chair" width="27" height="24">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjERQyszAUAbE5cy0t6sTaEcXEHfTwa5RMApGwSgYBZQDACbYAxM=
+  </data>
+ </layer>
+ <layer name="entrance" width="27" height="24">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMAoQwI2NgcEdiD3YaG9XFNCOaCCOoYNdeUA78oG4gA52jYJRMNQBABk+A2o=
+  </data>
+ </layer>
+ <layer name="collision" width="27" height="24" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUoAMJIjC17KGmOlLNIFZsqNlFibpRu2hrF8wc9LxEi/w1CkbBKCAfAACosAMZ
+  </data>
+ </layer>
+ <objectgroup name="entrances" visible="0">
+  <object name="red_house_in" gid="27" x="624" y="768">
+   <properties>
+    <property name="ent" value="red_house"/>
+    <property name="map" value="test"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

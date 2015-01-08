@@ -32,7 +32,7 @@
  </layer>
  <layer name="decorations" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJzl18lPE1EAx/GZ1oblZllkObNc1HtbTJCwnAQPQFT+ATSiJxRugBegwF9AF/gLECh/AVLg7MYWQC4sif4DAt+m0zB5zOt0lrYk/JJPgDeP93uddOBVUZznFGc4x4UL61nNf1ziKvWDejPu00klAj8qUOli/0M6/ahApa6/VieTRjSh2cX+Bjob0YRmrf/QoyhHOMYfnHjS4wEEEZKs1YJnNvYQoDeIkJp93gt0o0dy/SViNvqLlVpebx3qTV63nexiz2TOY3qf4KnD/pjB2F/8074fZv1P+IwRjGpa8Rxtuv6IsI7KNY/N/U2qaVOYRhgzmNX6e9GH/izrV3Gt2qR/BrOYM7g2z+9GEEUMcSxo6w3y9S3eObz/cSxg0eDaEmt/xTJWsIqE0Oe0fxUJrAnj62raN2wgiU1sSfravYrSgU50eXPv38QWtoXx32raDnaxh30cSPpf0fkabzBgoT+Vfcl46v28I/QdSPbwns4hfMBHoT/suz1fH58Lf0PG6BzHBL4I/TGTfjHf8QM/8cv51pQVi/1unyuSFvtl5wq7iVqcLztXFCpG54pc42X+Axf2rD9XmJ0t9HnE3Joi3LNskT1P4v/LfOWuntNzidVnx+ieFvJ50n/uyMTJ82Q14ueOTMzO6SUoRRnK87a7+x2r7+V85hqaDmX3
+   eJzt10lOwlAAxvEWJA5LZ3SvbtS9ookah5XDQo3DBdQ4rJx2DhsV9QQyeQInPIEKeAIViNNej+C/KSTNg1K0lBrjl/wCea99XyHAK5L0d+PSUOJDJapQXYR+t0Y6TWhGi8Xdzw5JesEr3vDuUMc70AmPznld6DbR65Fzzw9jBKM682MImOgvdty83gY0Grzun+QJcYNjWultQ7vJ/kCWsQ98pp6vsv4a1rGBzZQe9KJP0+8T1pGZc/zw+vZk1T4O4MUhjlL945jAZI71a5irNeg/xBGOs8ydcK4PfgQQRCi13hyP81gw+f4HEcJplrkz1j7HBS5xhbDQZ7b/CmFcC+M3suoWd4ggiphOX79TkgYwiCFn/v1RxHAvjD/Iqkc8IY4Ekjr9U3ROYwaz3+hXktAZVz7Pj0JfUucaFulcwjJWhH6vK/N4bVwF+A3ZonMbO9gV+gMG/Vbn0ub+iM39fnvrixonn+WSAu6Jyn2F0b2FNnUcW2/BnmxFxP3yP5n57nfH7vdU+7/Djoj/O/JNKcpQjoqCXtF/0vlN+8AXZ1lG7g==
   </data>
  </layer>
  <layer name="structures" width="32" height="32">
@@ -45,9 +45,22 @@
    eJztzdENQEAABNH9uWsNNaAGFIAajoZtEWIjmZfM90jAe7oi9W4omf/o7+Tm0H/xd3Vb6A8AAPCFvUqHO2vm3/y93B36A3/1AD47Br4=
   </data>
  </layer>
+ <layer name="trees" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztlskNgDAQxEIJHC1AqAH6L4GjBQgtcDglICIWobHkRz7xa6Vx7jkLrhhwS/DfXXY88IyP7P1+TrPAEiuDfk2zQY+tQT/S0e2N2kIIIdIy4IgTzgZ97Qrtij/tCt2T7kn3JL7EBca/Hs0=
+  </data>
+ </layer>
  <layer name="collision" width="32" height="32" visible="0">
   <data encoding="base64" compression="zlib">
    eJztlkEOwCAIBH2G/39prw0R3V3AcNDENCXAgFTKGG91W9Ps22xE1oGfHRfDmYvndN6ZOqL5W47qG9GL8u25sDFYxuqcUT4ag5czytrpqnzFRr3PLH+nj3xPj9+Tj/aXCj5zZ5XeffKF8k//AobvMVFfkVqxPW8nV+0Q+wifraPKZ+QrfjR/lo3qKPzs+eSv781cN/gnX5GZ5zY/k634ruQzMVTtrusDjtsQmQ==
   </data>
  </layer>
+ <objectgroup name="entrances" visible="0">
+  <object name="red_house" gid="27" x="864" y="1248">
+   <properties>
+    <property name="ent" value="red_house_in"/>
+    <property name="map" value="testRoom"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>
