@@ -3,28 +3,32 @@ package mmorpg.gfx
 import mmorpg.gfx.tiles.Tileset
 import mmorpg.tmx.Tmx
 
-class TmxRenderer(map: Tmx.Map, tilesets: Seq[Tileset]) extends Renderable {
+import scala.collection.mutable
 
-  override def renderAt(x: Int, y: Int)(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
-    map.layers.filter(_.visible).foreach { layer =>
-      layer.data.zipWithIndex
-        .filterNot { case (gid, _) => isEmptyTile(gid) }
-        .foreach(renderTile)
+class TmxRenderer(map: Tmx.Map, tilesets: Seq[Tileset]) {
+
+  def render(camera: Camera)(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
+    camera.forEachVisibleTile { index =>
+      map.getStack(index).foreach { gid =>
+        renderTile(gid, index, camera)
+      }
     }
   }
 
-  private def renderTile(t: (Int, Int))(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
-    val (gid, index) = t
+  private def renderTile(gid: Int, index: Int, camera: Camera)(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
+    if (isEmptyTile(gid)) return
     val tileset = tilesetByGid(gid)
     val tile = tileset(gid)
-    val x = index % map.width * tileset.tileSize
-    val y = index / map.width * tileset.tileSize
+    val x = (index % map.width * tileset.tileSize) - (camera.position.x - ctx.canvas.width / 2)
+    val y = (index / map.width * tileset.tileSize) - (camera.position.y - ctx.canvas.height / 2)
     tile.renderAt(x, y)
   }
 
-  //TODO: optimize this
+  private val tilesetGidCache = mutable.Map[Int, Tileset]()
   private def tilesetByGid(gid: Int): Tileset = {
-    tilesets.reverse.dropWhile(_.firstGid > gid).head
+    tilesetGidCache.getOrElseUpdate(gid, {
+      tilesets.reverse.dropWhile(_.firstGid > gid).head
+    })
   }
 
   private def isEmptyTile(tileId: Int) = tileId == 0

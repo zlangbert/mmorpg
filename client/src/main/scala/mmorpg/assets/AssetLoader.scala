@@ -1,11 +1,11 @@
 package mmorpg.assets
 
-import mmorpg.util.{DelayedInit, Logging}
+import mmorpg.util.Logging
 
 import scala.collection.mutable
 import scala.concurrent.{Future, Promise}
 
-trait AssetLoader[T] extends DelayedInit with Logging {
+trait AssetLoader[T] extends Logging {
 
   type AssetKey = String
   type Asset = T

@@ -1,6 +1,7 @@
 package mmorpg.tmx
 
 import upickle.{Js, key}
+import scala.collection.immutable
 
 object Tmx {
 
@@ -9,6 +10,23 @@ object Tmx {
                  @key("renderorder") renderOrder: String,
                  tilesets: Seq[Tileset],
                  layers: Seq[Layer]) {
+
+    private val stacks: immutable.Map[Int, Seq[Int]] = {
+      (for (x <- 0 until width; y <- 0 until height) yield {
+        val index = y * height + x
+        val gids = for {
+          layer <- layers if layer.visible
+        } yield layer.data(index)
+        index -> gids
+      }).toMap
+    }
+
+    /**
+     *
+     * @param index
+     * @return
+     */
+    def getStack(index: Int): Seq[Int] = stacks(index)
 
     private val collisionLayer = layers.find(_.name == "collision")
 

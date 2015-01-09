@@ -7,6 +7,7 @@ import mmorpg.input.MouseHandler
 import mmorpg.messages.Message.Move
 import mmorpg.net.WebSocketConnection
 import mmorpg.player.PlayerState
+import mmorpg.util.Vec
 import org.scalajs.dom
 import org.scalajs.dom.extensions.Color
 import org.scalajs.dom.{CanvasRenderingContext2D, HTMLCanvasElement, MouseEvent, UIEvent}
@@ -14,13 +15,12 @@ import org.scalajs.dom.{CanvasRenderingContext2D, HTMLCanvasElement, MouseEvent,
 import scala.collection.mutable
 import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 import scala.scalajs.js.annotation.JSExport
+import scala.async.Async._
 
 @JSExport
 object Client {
 
   var id: UUID = null
-
-  val socket = WebSocketConnection(dom.window.location.hostname, 8080, MessageHandler())
 
   val canvas = dom.document.getElementById("canvas").asInstanceOf[HTMLCanvasElement]
   implicit val ctx = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
@@ -29,8 +29,11 @@ object Client {
 
   val players = mutable.Map[UUID, PlayerState]()
 
-  var _world: Option[World] = None
-  def world: World = _world.getOrElse(throw new Exception("world not ready"))
+  var _socket: WebSocketConnection = null
+  private def socket = _socket
+
+  var _world: World = null
+  def world: World = _world
 
   @JSExport
   def main(container: dom.HTMLDivElement) = {
@@ -46,18 +49,20 @@ object Client {
     }
 
     mouseHandler.onClick { e: MouseEvent =>
-      val tileIndex = world.getTileIndex(e.clientX.toInt, e.clientY.toInt)
+      val x = e.clientX.toInt
+      val y = e.clientY.toInt
+      world.camera.position.x += x - canvas.width / 2
+      world.camera.position.y += y - canvas.height / 2
+      val tileIndex = world.getTileIndex(x, y)
       socket.send(Move(id, tileIndex))
     }
 
-    /*DelayedInit.waitFor(socket, world) {
-      update(socket)
-    }*/
-
-    World("test").onSuccess {
-      case world =>
-        _world = Option(world)
-        update(socket, world)
+    async {
+      val socket = await(WebSocketConnection(dom.window.location.hostname, 8080, MessageHandler()))
+      _socket = socket
+      val world = await(World("test"))
+      _world = world
+      update(socket, world)
     }
   }
 

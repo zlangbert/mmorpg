@@ -15,9 +15,6 @@ case class StaticTile(localId: Int, img: HTMLImageElement, tileset: Tileset) ext
 
   override def renderAt(x: Int, y: Int)(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
 
-    //this will go away when a proper camera is implemented and only visible tiles are rendered
-    if (x >= ctx.canvas.width || y >= ctx.canvas.height) return
-
     ctx.drawImage(img, offset.x, offset.y, tileset.tileSize, tileset.tileSize,
       x, y, tileset.tileSize, tileset.tileSize)
   }
