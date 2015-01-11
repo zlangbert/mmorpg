@@ -49,12 +49,10 @@ object Client {
     }
 
     mouseHandler.onClick { e: MouseEvent =>
-      val x = e.clientX.toInt
-      val y = e.clientY.toInt
-      world.camera.position.x += x - canvas.width / 2
-      world.camera.position.y += y - canvas.height / 2
-      val tileIndex = world.getTileIndex(x, y)
-      socket.send(Move(id, tileIndex))
+      val screenX = e.clientX.toInt
+      val screenY = e.clientY.toInt
+      val (worldX, worldY) = world.camera.screenToWorld(screenX, screenY)
+      socket.send(Move(id, worldX, worldY))
     }
 
     async {
@@ -79,7 +77,14 @@ object Client {
 
       ctx.clear(Color.Black)
 
-      world.renderAt(0, 0)
+      world.render()
+
+      ctx.fillStyle = "white"
+      ctx.font = "14px Arial"
+      ctx.fillText("Camera", canvas.width - 100, 125)
+      ctx.fillText(world.camera.position.toString, canvas.width - 100, 140)
+      ctx.fillText("Mouse", canvas.width - 100, 160)
+      ctx.fillText(s"${world.camera.screenToWorld(mouseHandler.x, mouseHandler.y)}", canvas.width - 100, 175)
 
       DebugInfo.frameEnd()
 

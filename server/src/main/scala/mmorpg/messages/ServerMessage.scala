@@ -20,5 +20,5 @@ object ServerMessage {
 
   case object AnnounceSpawn
 
-  case class MoveRequest(id: UUID, tileIndex: Int) extends ServerMessage
+  case class MoveRequest(id: UUID, x: Int, y: Int) extends ServerMessage
 }

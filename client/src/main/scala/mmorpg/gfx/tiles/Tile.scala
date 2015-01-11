@@ -1,12 +1,12 @@
 package mmorpg.gfx.tiles
 
-import mmorpg.gfx.Renderable
+import mmorpg.gfx.RenderableAt
 import mmorpg.util.Vec
 
 /**
  * All tile types should extends Tile
  */
-trait Tile extends Renderable {
+trait Tile extends RenderableAt {
 
   /**
    * The tileset this tile belongs to

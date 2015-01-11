@@ -33,10 +33,10 @@ class PlayerActor(id: UUID, connection: ActorRef, world: ActorRef) extends Actor
   lazy val messageHandler: Receive = {
     case Tick =>
     case AnnounceSpawn => sender() ! Spawn(id, state)
-    case Move(_, tileIndex) =>
-      world ? MoveRequest(id, tileIndex) onSuccess {
+    case Move(_, x, y) =>
+      world ? MoveRequest(id, x, y) onSuccess {
         case true =>
-          state.move(tileIndex)
+          //state.move(tileIndex)
           world ! UpdateState(id, state)
         case _ =>
       }

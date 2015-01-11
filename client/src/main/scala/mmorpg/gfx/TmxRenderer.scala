@@ -8,19 +8,21 @@ import scala.collection.mutable
 class TmxRenderer(map: Tmx.Map, tilesets: Seq[Tileset]) {
 
   def render(camera: Camera)(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
-    camera.forEachVisibleTile { index =>
-      /*map.getStack(index).foreach { gid =>
-        renderTile(gid, index, camera)
-      }*/
+    map.tileLayers foreach { l =>
+      if (!l.visible) return
+      for (worldX <- 0 until camera.size.x by 48; worldY <- 0 until camera.size.y by 48) {
+        val index = (worldY / 48) * map.height + (worldX / 48)
+        val gid = l.data(index)
+        val (screenX, screenY) = camera.worldToScreen(worldX, worldY)
+        renderTile(gid, screenX, screenY)
+      }
     }
   }
 
-  private def renderTile(gid: Int, index: Int, camera: Camera)(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
+  private def renderTile(gid: Int, x: Int, y: Int)(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
     if (isEmptyTile(gid)) return
     val tileset = tilesetByGid(gid)
     val tile = tileset(gid)
-    val x = (index % map.width * tileset.tileSize) - (camera.position.x - ctx.canvas.width / 2)
-    val y = (index / map.width * tileset.tileSize) - (camera.position.y - ctx.canvas.height / 2)
     tile.renderAt(x, y)
   }
 

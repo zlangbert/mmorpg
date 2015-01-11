@@ -6,7 +6,7 @@ import mmorpg.gfx.sprites.Sprite.SpriteData
 import mmorpg.util.Vec
 import org.scalajs.dom
 
-class Sprite(val key: String, img: dom.HTMLImageElement, data: SpriteData) extends Renderable {
+class Sprite(val key: String, img: dom.HTMLImageElement, data: SpriteData) extends RenderableAt {
 
   val animation = SpriteAnimation()
 

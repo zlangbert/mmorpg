@@ -1,27 +1,40 @@
 package mmorpg.gfx
 
+import mmorpg.Client
 import mmorpg.util.Vec
 
-class Camera(size: Vec) {
+class Camera(val size: Vec) {
 
-  type Position = Vec
+  type Position = (Int, Int)
 
-  var _position: Position = Vec(15*48,15*48)
+  var _position: Position = Client.canvas.width / 2 -> Client.canvas.height / 2
 
   def position = _position
-  def position_(p: Position) = _position = p
+  def position_=(p: Position) = _position = p
 
-  def worldToScreen = ???
+  def worldToScreen(x: Int, y: Int): (Int, Int) = {
+    val (px, py) = position
+    val screenX = x - (px - Client.canvas.width / 2)
+    val screenY = y - (py - Client.canvas.height / 2)
+    screenX -> screenY
+  }
 
-  def screenToWorld = ???
+  def screenToWorld(x: Int, y: Int): (Int, Int) = {
+    val (px, py) = position
+    val worldX = x + (px - Client.canvas.width / 2)
+    val worldY = y + (py - Client.canvas.height / 2)
+    worldX -> worldY
+  }
 
-  def forEachVisibleTile(f: Int => Unit): Unit = {
-    for {
-      x <- 0 until 32//position.x until position.x + size.x if x < 32
-      y <- 0 until 32//position.y until position.y + size.y if y < 32
-    } {
-      val index = y * 32 + x
-      f(index)
-    }
+  /**
+   * Clamp coordinates to the top left of the tile
+   * @param x
+   * @param y
+   * @return
+   */
+  def clampToGrid(x: Int, y: Int): (Int, Int) = {
+    val clampedX = math.floor(x / 48).toInt * 48
+    val clampedY = math.floor(y / 48).toInt * 48
+    clampedX -> clampedY
   }
 }

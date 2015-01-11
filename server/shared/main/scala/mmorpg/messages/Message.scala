@@ -20,6 +20,6 @@ object Message {
   case class InitializeClient(target: UUID) extends Message
   case class Spawn(target: UUID, state: PlayerState) extends Message
   case class Despawn(target: UUID) extends Message
-  case class Move(target: UUID, toTile: Int) extends Message
+  case class Move(target: UUID, x: Int, y: Int) extends Message
   case class UpdateState(target: UUID, state: PlayerState) extends Message
 }

@@ -38,7 +38,7 @@ class WorldActor extends Actor {
     case msg: Spawn => players ! BroadcastPush(msg)
     case msg: Move => players ! msg
 
-    case MoveRequest(id, tileIndex) =>
-      sender() ! (tileIndex > 0 && !map.isSolid(tileIndex))
+    case MoveRequest(id, x, y) =>
+      sender() ! true//(tileIndex > 0 && !map.isSolid(tileIndex))
   }
 }

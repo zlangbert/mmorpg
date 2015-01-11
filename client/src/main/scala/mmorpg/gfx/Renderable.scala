@@ -1,5 +1,5 @@
 package mmorpg.gfx
 
 trait Renderable {
-  def renderAt(x: Int, y: Int)(implicit delta: TimeDelta, ctx: RenderingContext): Unit
+  def render()(implicit delta: TimeDelta, ctx: RenderingContext): Unit
 }

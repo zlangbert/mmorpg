@@ -14,7 +14,6 @@ case class StaticTile(localId: Int, img: HTMLImageElement, tileset: Tileset) ext
   val offset = getOffset(localId)
 
   override def renderAt(x: Int, y: Int)(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
-
     ctx.drawImage(img, offset.x, offset.y, tileset.tileSize, tileset.tileSize,
       x, y, tileset.tileSize, tileset.tileSize)
   }

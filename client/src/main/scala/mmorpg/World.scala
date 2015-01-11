@@ -1,10 +1,10 @@
 package mmorpg
 
 import mmorpg.assets._
-import mmorpg.gfx.tiles.Tileset
 import mmorpg.gfx._
+import mmorpg.gfx.tiles.Tileset
 import mmorpg.tmx.Tmx
-import mmorpg.util.{Vec, Logging}
+import mmorpg.util.{Logging, Vec}
 
 import scala.async.Async._
 import scala.concurrent.Future
@@ -12,7 +12,7 @@ import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
 class World(map: Tmx.Map, renderer: TmxRenderer) extends Renderable with Logging {
 
-  val camera = new Camera(Vec(32, 32))
+  val camera = new Camera(Vec(map.width * 48, map.height * 48))
 
   def getTileIndex(x: Int, y: Int): Int = {
     if (x > map.width * 48 || y > map.height * 48) -1
@@ -23,7 +23,7 @@ class World(map: Tmx.Map, renderer: TmxRenderer) extends Renderable with Logging
     !map.isSolid(tileIndex)
   }
 
-  override def renderAt(x: Int, y: Int)(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
+  override def render()(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
     renderer.render(camera)
 
     ctx.strokeStyle = if (tileIsWalkable(getTileIndex(Client.mouseHandler.x, Client.mouseHandler.y))) "#FFDF7D" else "#DE1028"

@@ -37,7 +37,7 @@ object Tmx {
      * @param tileIndex The tileIndex
      * @return true if the tile exists on the collision layer
      */
-    def isSolid(tileIndex: Int): Boolean = ???
+    def isSolid(tileIndex: Int): Boolean = false
       /*tileIndex < 0 ||
       collisionLayer.exists(_.data(tileIndex) != 0)*/
   }
