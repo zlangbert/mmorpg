@@ -14,6 +14,8 @@ class World(map: Tmx.Map, renderer: TmxRenderer) extends Renderable with Logging
 
   val camera = new Camera(Vec(map.width * 48, map.height * 48))
 
+  private val tileOutliner = new TileOutliner
+
   def getTileIndex(x: Int, y: Int): Int = {
     if (x > map.width * 48 || y > map.height * 48) -1
     else y / 48 * map.height + x / 48
@@ -26,10 +28,7 @@ class World(map: Tmx.Map, renderer: TmxRenderer) extends Renderable with Logging
   override def render()(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
     renderer.render(camera)
 
-    ctx.strokeStyle = if (tileIsWalkable(getTileIndex(Client.mouseHandler.x, Client.mouseHandler.y))) "#FFDF7D" else "#DE1028"
-
-    ctx.lineWidth = 3
-    ctx.strokeRect(Client.mouseHandler.x / 48 * 48, Client.mouseHandler.y / 48 * 48, 48, 48)
+    tileOutliner.render()
 
     Client.players.values.foreach { player =>
       //playerSprite.renderAt(player.position.x, player.position.y)
