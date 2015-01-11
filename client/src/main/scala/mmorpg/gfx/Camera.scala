@@ -11,6 +11,10 @@ class Camera(size: Vec) {
   def position = _position
   def position_(p: Position) = _position = p
 
+  def worldToScreen = ???
+
+  def screenToWorld = ???
+
   def forEachVisibleTile(f: Int => Unit): Unit = {
     for {
       x <- 0 until 32//position.x until position.x + size.x if x < 32

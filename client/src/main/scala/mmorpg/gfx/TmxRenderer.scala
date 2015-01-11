@@ -9,9 +9,9 @@ class TmxRenderer(map: Tmx.Map, tilesets: Seq[Tileset]) {
 
   def render(camera: Camera)(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
     camera.forEachVisibleTile { index =>
-      map.getStack(index).foreach { gid =>
+      /*map.getStack(index).foreach { gid =>
         renderTile(gid, index, camera)
-      }
+      }*/
     }
   }
 
