@@ -22,24 +22,52 @@ object Tmx {
                  tilesets: Seq[Tileset],
                  layers: Seq[Layer]) {
 
+    /**
+     * The size of a tile in pixels
+     */
+    val tileSize = tilesets.head.tileWidth
+
+
+    /**
+     * The last tile index on this map
+     */
+    val lastIndex = width * height - 1
+
+
+    /**
+     * Renderable tile layers
+     */
     val tileLayers = layers.collect {
       case l: TileLayer => l
     }
 
+    /**
+     * Information only object layers
+     */
     val objectLayers = layers.collect {
       case l: ObjectLayer => l
     }
 
-    //private val collisionLayer = layers.head //layers.find(_.name == "collision")
+    /**
+     * Calculates a tile index from world coordinates
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return The tile index
+     */
+    def indexFromCoords(x: Int, y: Int): Int = (y / tileSize) * height + (x / tileSize)
 
     /**
      * Checks for a collision tile at the given index
      * @param tileIndex The tileIndex
      * @return true if the tile exists on the collision layer
      */
-    def isSolid(tileIndex: Int): Boolean = false
-      /*tileIndex < 0 ||
-      collisionLayer.exists(_.data(tileIndex) != 0)*/
+    def isSolid(tileIndex: Int): Boolean =
+      tileIndex < 0 || tileIndex > lastIndex ||
+      collisionLayer.data(tileIndex) > 0
+
+    private lazy val collisionLayer =
+      tileLayers.find(_.name == "collision")
+        .getOrElse(throw new Exception("failed to find map collision layer"))
   }
 
   /**

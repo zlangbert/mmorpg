@@ -29,11 +29,15 @@ object Client {
 
   val players = mutable.Map[UUID, PlayerState]()
 
-  var _socket: WebSocketConnection = null
   private def socket = _socket
+  var _socket: WebSocketConnection = null
 
-  var _world: World = null
+  /**
+   * The current world
+   * @return The world
+   */
   def world: World = _world
+  var _world: World = null
 
   @JSExport
   def main(container: dom.HTMLDivElement) = {
@@ -51,7 +55,8 @@ object Client {
     mouseHandler.onClick { e: MouseEvent =>
       val screenX = e.clientX.toInt
       val screenY = e.clientY.toInt
-      val (worldX, worldY) = world.camera.screenToWorld(screenX, screenY)
+      val (clampedX, clampedY) = world.camera.clampToGrid(screenX, screenY)
+      val (worldX, worldY) = world.camera.screenToWorld(clampedX + 24, clampedY + 24)
       socket.send(Move(id, worldX, worldY))
     }
 
@@ -82,7 +87,7 @@ object Client {
       ctx.fillStyle = "white"
       ctx.font = "14px Arial"
       ctx.fillText("Camera", canvas.width - 100, 125)
-      ctx.fillText(world.camera.position.toString, canvas.width - 100, 140)
+      ctx.fillText(world.camera.position.toString(), canvas.width - 100, 140)
       ctx.fillText("Mouse", canvas.width - 100, 160)
       ctx.fillText(s"${world.camera.screenToWorld(mouseHandler.x, mouseHandler.y)}", canvas.width - 100, 175)
 

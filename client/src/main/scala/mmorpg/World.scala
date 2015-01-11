@@ -2,6 +2,7 @@ package mmorpg
 
 import mmorpg.assets._
 import mmorpg.gfx._
+import mmorpg.gfx.sprites.Sprite
 import mmorpg.gfx.tiles.Tileset
 import mmorpg.tmx.Tmx
 import mmorpg.util.{Logging, Vec}
@@ -10,11 +11,11 @@ import scala.async.Async._
 import scala.concurrent.Future
 import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
-class World(map: Tmx.Map, renderer: TmxRenderer) extends Renderable with Logging {
+class World(map: Tmx.Map, renderer: TmxRenderer, playerSprite: Sprite) extends Renderable with Logging {
 
   val camera = new Camera(Vec(map.width * 48, map.height * 48))
 
-  private val tileOutliner = new TileOutliner
+  private val tileOutliner = new TileOutliner(map)
 
   def getTileIndex(x: Int, y: Int): Int = {
     if (x > map.width * 48 || y > map.height * 48) -1
@@ -31,7 +32,7 @@ class World(map: Tmx.Map, renderer: TmxRenderer) extends Renderable with Logging
     tileOutliner.render()
 
     Client.players.values.foreach { player =>
-      //playerSprite.renderAt(player.position.x, player.position.y)
+      playerSprite.renderAt(player.position.x, player.position.y)
     }
   }
 }
@@ -43,12 +44,11 @@ object World {
    * @param mapKey The key of the map to load
    * @return A new world
    */
-  def apply(mapKey: String): Future[World] = {
-    async {
-      val map = await(MapLoader(mapKey))
-      val tilesets = await(Future.sequence(map.tilesets.map(Tileset.apply(mapKey))))
-      val renderer = new TmxRenderer(map, tilesets)
-      new World(map, renderer)
-    }
+  def apply(mapKey: String): Future[World] = async {
+    val map = await(MapLoader(mapKey))
+    val tilesets = await(Future.sequence(map.tilesets.map(Tileset.apply(mapKey))))
+    val renderer = new TmxRenderer(map, tilesets)
+    val playerSprite = await(SpriteLoader("clotharmor"))
+    new World(map, renderer, playerSprite)
   }
 }

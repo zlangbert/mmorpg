@@ -4,15 +4,9 @@ import java.util.UUID
 
 import mmorpg.util.Vec
 
-import scala.util.Random
+case class PlayerState(id: UUID, var position: Vec) {
 
-case class PlayerState(id: UUID, var position: Vec,
-                       color: String = s"rgb(${Random.nextInt(256)}, ${Random.nextInt(256)}, ${Random.nextInt(256)})") {
-
-  def move(tileIndex: Int): Unit = {
-    val tilesX = 32 //TODO: get real map info somehow
-    val x = tileIndex % tilesX * 48 + 48 / 2
-    val y = tileIndex / tilesX * 48 + 48 / 2
+  def moveTo(x: Int, y: Int): Unit = {
     position = Vec(x, y)
   }
 }

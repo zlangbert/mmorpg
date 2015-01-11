@@ -39,6 +39,7 @@ class WorldActor extends Actor {
     case msg: Move => players ! msg
 
     case MoveRequest(id, x, y) =>
-      sender() ! true//(tileIndex > 0 && !map.isSolid(tileIndex))
+      val index = map.indexFromCoords(x, y)
+      sender() ! !map.isSolid(index)
   }
 }

@@ -10,8 +10,8 @@ class TmxRenderer(map: Tmx.Map, tilesets: Seq[Tileset]) {
   def render(camera: Camera)(implicit delta: TimeDelta, ctx: RenderingContext): Unit = {
     map.tileLayers foreach { l =>
       if (!l.visible) return
-      for (worldX <- 0 until camera.size.x by 48; worldY <- 0 until camera.size.y by 48) {
-        val index = (worldY / 48) * map.height + (worldX / 48)
+      for (worldX <- 0 until camera.size.x by map.tileSize; worldY <- 0 until camera.size.y by map.tileSize) {
+        val index = map.indexFromCoords(worldX, worldY)
         val gid = l.data(index)
         val (screenX, screenY) = camera.worldToScreen(worldX, worldY)
         renderTile(gid, screenX, screenY)

@@ -36,7 +36,7 @@ class PlayerActor(id: UUID, connection: ActorRef, world: ActorRef) extends Actor
     case Move(_, x, y) =>
       world ? MoveRequest(id, x, y) onSuccess {
         case true =>
-          //state.move(tileIndex)
+          state.moveTo(x, y)
           world ! UpdateState(id, state)
         case _ =>
       }
