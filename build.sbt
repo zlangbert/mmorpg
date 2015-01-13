@@ -82,13 +82,13 @@ lazy val sharedSettings =
       baseDirectory.value  / "shared" / "main" / "resources",
     libraryDependencies ++= Seq(
       "org.scala-lang.modules" %% "scala-async" % "0.9.2",
-      "com.scalatags" %%% "scalatags" % "0.4.3-M3",
-      "com.lihaoyi" %%% "upickle" % "0.2.6-M3"
+      "com.lihaoyi" %%% "scalatags" % "0.4.3-RC1",
+      "com.lihaoyi" %%% "upickle" % "0.2.6-RC1"
     )
   ) ++ baseSettings
 
 lazy val baseSettings = Seq(
-  scalaVersion := "2.11.4",
+  scalaVersion := "2.11.5",
   scalacOptions += "-deprecation",
   resolvers ++= Seq(
     Resolver.sonatypeRepo("snapshots")
