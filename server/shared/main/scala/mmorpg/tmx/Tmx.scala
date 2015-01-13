@@ -2,8 +2,6 @@ package mmorpg.tmx
 
 import upickle.{Js, key}
 
-import scala.collection.immutable
-
 object Tmx {
 
   /**
@@ -63,7 +61,7 @@ object Tmx {
      */
     def isSolid(tileIndex: Int): Boolean =
       tileIndex < 0 || tileIndex > lastIndex ||
-      collisionLayer.data(tileIndex) > 0
+      collisionLayer.tileData(tileIndex).gid > 0
 
     private lazy val collisionLayer =
       tileLayers.find(_.name == "collision")
@@ -127,6 +125,10 @@ object Tmx {
    * Custom reader for layer to handle the multiple layer types
    */
   object Layer {
+    // upickle expects longs to be in quotes but they aren't in the map json
+    implicit val longReader = upickle.Reader[Long] {
+      case Js.Num(v) => v.toLong
+    }
     implicit val reader = upickle.Reader[Layer] {
       case o: Js.Obj => o("type") match {
         case Js.Str("tilelayer") =>
@@ -151,11 +153,43 @@ object Tmx {
    * @param visible
    */
   case class TileLayer(name: String,
-                   data: Array[Int],
+                   private val data: Array[Long],
                    width: Int,
                    height: Int,
                    opacity: Double,
-                   visible: Boolean) extends Layer
+                   visible: Boolean) extends Layer {
+
+    val tileData = data.map(toTile)
+
+    private def toTile(data: Long): TileLayer.TileData = {
+      val FlippedHorizontallyFlag = 0x80000000l
+      val FlippedVerticallyFlag = 0x40000000l
+      val FlippedDiagonallyFlag = 0x20000000l
+
+      val orientation = data match {
+        case id if (id & FlippedHorizontallyFlag) != 0 => TileOrientation.FlippedHorizontally
+        case id if (id & FlippedVerticallyFlag) != 0 => TileOrientation.FlippedVertically
+        case id if (id & FlippedDiagonallyFlag) != 0 => TileOrientation.FlippedDiagonally
+        case _ => TileOrientation.Default
+      }
+
+      val gid = data & ~(FlippedHorizontallyFlag | FlippedVerticallyFlag | FlippedDiagonallyFlag)
+
+      TileLayer.TileData(gid.toInt, orientation)
+    }
+  }
+
+  object TileLayer {
+    case class TileData(gid: Int, orientation: TileOrientation.TileOrientation)
+  }
+
+  object TileOrientation {
+    sealed trait TileOrientation
+    case object Default extends TileOrientation
+    case object FlippedHorizontally extends TileOrientation
+    case object FlippedVertically extends TileOrientation
+    case object FlippedDiagonally extends TileOrientation
+  }
 
   /**
    *
@@ -170,6 +204,6 @@ object Tmx {
    *
    * @param gid
    */
-  case class TmxObject(gid: Int)
+  case class TmxObject(gid: Long)
 
 }
